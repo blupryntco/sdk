@@ -1,0 +1,16 @@
+{
+  "name": "@bluprynt/sdk-example-basic",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@bluprynt/sdk": "workspace:*",
+    "@bluprynt/sdk-chain-evm": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/node": "^26.1.1"
+  }
+}
