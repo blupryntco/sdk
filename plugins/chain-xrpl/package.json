@@ -21,6 +21,16 @@
   "files": [
     "dist"
   ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/blupryntco/sdk.git",
+    "directory": "plugins/chain-xrpl"
+  },
+  "homepage": "https://github.com/blupryntco/sdk#readme",
+  "bugs": "https://github.com/blupryntco/sdk/issues",
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "build": "tsdown src/index.ts --format esm,cjs --dts",
     "typecheck": "tsc --noEmit",
