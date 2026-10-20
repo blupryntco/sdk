@@ -1,0 +1,120 @@
+:root {
+  --vp-c-brand-1: #1d4ed8;
+  --vp-c-brand-2: #2563eb;
+  --vp-c-brand-3: #3b82f6;
+  --vp-c-brand-soft: rgba(37, 99, 235, 0.14);
+
+  --vp-home-hero-name-color: transparent;
+  --vp-home-hero-name-background: linear-gradient(120deg, #1d4ed8 20%, #06b6d4);
+  --vp-home-hero-image-background-image: linear-gradient(
+    -45deg,
+    #3b82f6 50%,
+    #22d3ee 50%
+  );
+  --vp-home-hero-image-filter: blur(56px);
+
+  --grid-line: rgba(37, 99, 235, 0.07);
+}
+
+.dark {
+  --vp-c-brand-1: #60a5fa;
+  --vp-c-brand-2: #3b82f6;
+  --vp-c-brand-3: #2563eb;
+  --vp-c-brand-soft: rgba(96, 165, 250, 0.16);
+
+  --vp-home-hero-name-background: linear-gradient(120deg, #60a5fa 20%, #22d3ee);
+
+  --grid-line: rgba(96, 165, 250, 0.08);
+}
+
+@media (min-width: 640px) {
+  :root {
+    --vp-home-hero-image-filter: blur(72px);
+  }
+}
+
+.VPHome {
+  background-image:
+    linear-gradient(var(--grid-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+  background-size: 32px 32px;
+  background-position: center top;
+}
+
+.VPHomeHero .text {
+  font-size: clamp(28px, 5vw, 52px);
+  line-height: 1.15;
+}
+
+.VPFeature {
+  backdrop-filter: blur(6px);
+  transition:
+    border-color 0.2s,
+    transform 0.2s;
+}
+
+.VPFeature:hover {
+  border-color: var(--vp-c-brand-2);
+  transform: translateY(-2px);
+}
+
+.vp-doc .trust-chain {
+  list-style: none;
+  padding: 0;
+  margin: 24px 0;
+  counter-reset: step;
+}
+
+.vp-doc .trust-chain li {
+  position: relative;
+  counter-increment: step;
+  margin: 0;
+  padding: 12px 16px 12px 56px;
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 10px;
+  background: var(--vp-c-bg-soft);
+}
+
+.vp-doc .trust-chain li + li {
+  margin-top: 20px;
+}
+
+.vp-doc .trust-chain li::before {
+  content: counter(step);
+  position: absolute;
+  left: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: var(--vp-c-brand-2);
+  color: #fff;
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 26px;
+  text-align: center;
+}
+
+.vp-doc .trust-chain li + li::after {
+  content: "";
+  position: absolute;
+  left: 28px;
+  top: -21px;
+  height: 20px;
+  border-left: 2px dashed var(--vp-c-brand-3);
+}
+
+.vp-doc .trust-chain strong {
+  display: block;
+}
+
+.vp-doc .trust-chain span {
+  color: var(--vp-c-text-2);
+  font-size: 14px;
+}
+
+.vp-doc table {
+  display: table;
+  width: 100%;
+}
