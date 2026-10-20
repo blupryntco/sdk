@@ -1,10 +1,6 @@
 # Wallet verification
 
-> Source: [Notion — Wallet verification](https://app.notion.com/p/morozzzko/Wallet-verification-3a6431a103d580f6ac61c3a8d41411cc?source=copy_link)
-
-[Wallet: data migration](https://app.notion.com/p/3a7431a103d580f8844dda5c4112f24b)
-
-One of the most important KYI/KYA steps is wallet verification.
+One of the most important KYI steps is wallet verification.
 
 Every claim, attestation, or credential Bluprynt issues for an asset or an issuer ultimately depends on one foundational assumption: **the on-chain addresses referenced by that record are actually controlled by the issuer who submitted the information**.
 
@@ -197,7 +193,7 @@ Bluprynt’s SDK uses the same underlying verification artifacts described above
 
 ### Where the data comes from
 
-Each credential/attestation references an **issuer identity** (created during KYI/KYA). That identity includes a set of **associated addresses**. Each address association includes metadata describing **how** that association was established — for example, whether it was verified via:
+Each credential/attestation references an **issuer identity** (created during KYI). That identity includes a set of **associated addresses**. Each address association includes metadata describing **how** that association was established — for example, whether it was verified via:
 
 - **Cryptographic signature** (wallet extension or CLI/programmatic signing)
 - **On-chain transaction verification**

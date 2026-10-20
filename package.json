@@ -15,6 +15,9 @@
     "lint": "biome check .",
     "lint:fix": "biome check --write .",
     "format": "biome format --write .",
+    "docs:dev": "vitepress dev docs",
+    "docs:build": "vitepress build docs",
+    "docs:preview": "vitepress preview docs",
     "changeset": "changeset",
     "version": "changeset version",
     "release": "pnpm build && changeset publish"
@@ -25,6 +28,8 @@
     "@types/node": "^26.1.1",
     "tsdown": "^0.22.13",
     "typescript": "^7.0.2",
+    "vitepress": "^1.6.4",
+    "vitepress-plugin-llms": "^1.14.0",
     "vitest": "^4.1.10"
   }
 }
