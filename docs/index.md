@@ -100,4 +100,4 @@ result.chain.caip2; // the chain the proof was checked on
 
 These docs are published in an agent-friendly form too. Point your agent at [`/llms.txt`](/llms.txt) for a map of the docs, or [`/llms-full.txt`](/llms-full.txt) for everything in one file.
 
-Read [Wallet verification](/wallet-verification) for how each proof is produced and what the SDK checks.
+Read [Wallet verification](/wallet-verification) for how each proof is produced and what the SDK checks, and [Verifying KYI claims](/kyi-verification) to re-check a KYI token lookup end to end.
