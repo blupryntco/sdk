@@ -6,6 +6,8 @@ import type { ChainId, CheckWalletVerification } from "@bluprynt/sdk-core";
 
 export const EVM_NAMESPACE = "eip155" as const;
 
+export * from "./kyi.js";
+
 // ponytail: no-op stub — returns not-verified. Replace body with real EVM verification:
 // eip191 ecrecover (EOA), erc1271 isValidSignature via RPC (contract wallets),
 // and unique-wei transfer checks (onchain_tx).
