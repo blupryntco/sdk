@@ -1,6 +1,6 @@
 # Verifying KYI claims
 
-When you look up a token through Bluprynt's public API (`GET /kyi/v1/tokens`), the response tells you whether the token passed KYI (`kyi_verified`). It also includes the evidence behind that claim:
+When you look up a token through [Bluprynt's public API](https://integrations.bluprynt.com/) (`GET /kyi/v1/tokens`), the response tells you whether the token passed KYI (`kyi_verified`). It also includes the evidence behind that claim:
 
 - **Authorities:** the addresses that control the token, such as its `owner()` or a Safe multi-sig and its signers.
 - **Verifications:** the wallet proofs showing that the issuer controls one of those authorities. A proof is a signature, a contract signature or an on-chain transfer (see [Wallet verification](/wallet-verification)).
@@ -28,6 +28,129 @@ report.matchesClaim; // true | false | null
 ```
 
 If you already hold a single item from the response, use `verifyKyiToken(item, options)` instead. To re-check one verification or authority on its own, use `checkKyiVerification` or `checkKyiAuthority`.
+
+## Example
+
+Below is a lookup for a test token on Sepolia. Its issuer proved control of the token's controlling wallet with an EIP-191 signature.
+
+::: details API response
+```json
+{
+  "kyi_verified": true,
+  "data": [
+    {
+      "kyi_verified": true,
+      "token": {
+        "caip19": "eip155:11155111/erc20:0xcbc76ceb0afa037cbb975fd330bd683754998cc3",
+        "caip2": "eip155:11155111",
+        "chain_slug": "sepolia",
+        "address": "0xCBc76CeB0Afa037cBb975Fd330Bd683754998Cc3",
+        "standard": null,
+        "decimals": null,
+        "verified_at": "2026-10-06T13:30:46.372Z"
+      },
+      "asset": {
+        "slug": "onvi-2mdu3y",
+        "name": "Onyx Viper",
+        "symbol": "ONVI",
+        "description": "https://coo.coo",
+        "website_url": "https://coo.coo",
+        "whitepaper_url": "https://coo.coo"
+      },
+      "issuer": {
+        "name": "Example Organization",
+        "kyb_verified": true
+      },
+      "authorities": [
+        {
+          "type": "controlled_by",
+          "address": "0xf748a9220b9b0d79d6eed2d927fcdfe80055b19c",
+          "account_type": "regular",
+          "signers": [],
+          "threshold": null,
+          "observed_at": "2026-10-06T13:29:21.759Z"
+        }
+      ],
+      "verifications": [
+        {
+          "verified_at": "2026-10-06T13:30:46.372Z",
+          "expires_at": null,
+          "wallet_address": "0xf748a9220b9b0d79d6eed2d927fcdfe80055b19c",
+          "authority": {
+            "type": "controlled_by",
+            "address": "0xf748a9220b9b0d79d6eed2d927fcdfe80055b19c",
+            "account_type": "regular",
+            "signers": [],
+            "threshold": null,
+            "observed_at": "2026-10-06T13:29:21.759Z"
+          },
+          "method": {
+            "type": "signature",
+            "scheme": "eip191",
+            "message": "Please, sign this message to verify your Bluprynt KYI credentials\n\nPurpose: Verify wallet ownership\nIssued to: 1173\nAddress: 0xf748a9220b9b0d79d6eed2d927fcdfe80055b19c::1791293432710::37ae7bb2fb93c56f09e7c5f523d8060b.b163c968e50ed343ad4aa773bce98de8dea7def92bddb4f16ebdf8265c14e062",
+            "signature": "0xec83133187bf78019c3c4b4137d14e1876b167c2f64ca05bfc06f5491c9c257e1477862593d19651ede7268e9f7470c773d46e1a818d2eb3b2b82ede600010141b",
+            "signer_public_key": null
+          }
+        }
+      ]
+    }
+  ]
+}
+```
+:::
+
+Passing it to `verifyKyiResponse` returns:
+
+```json
+{
+  "claimed": true,
+  "verified": true,
+  "matchesClaim": true,
+  "tokens": [
+    {
+      "caip19": "eip155:11155111/erc20:0xcbc76ceb0afa037cbb975fd330bd683754998cc3",
+      "claimed": true,
+      "verified": true,
+      "matchesClaim": true,
+      "evidence": "confirmed",
+      "checks": [
+        {
+          "kind": "verification",
+          "subject": "0xf748a9220b9b0d79d6eed2d927fcdfe80055b19c",
+          "method": "signature:eip191",
+          "status": "valid",
+          "steps": [
+            {
+              "check": "wallet is the authority or one of its signers",
+              "via": "offline",
+              "ok": true,
+              "expected": ["0xf748a9220b9b0d79d6eed2d927fcdfe80055b19c"],
+              "actual": "0xf748a9220b9b0d79d6eed2d927fcdfe80055b19c"
+            },
+            {
+              "check": "eip191 signature recovers to wallet",
+              "via": "offline",
+              "ok": true,
+              "expected": "0xf748a9220b9b0d79d6eed2d927fcdfe80055b19c",
+              "actual": "0xf748a9220B9B0D79D6eeD2D927fCdFE80055b19c"
+            }
+          ]
+        },
+        {
+          "kind": "authority",
+          "subject": "0xf748a9220b9b0d79d6eed2d927fcdfe80055b19c",
+          "method": "controlled_by",
+          "status": "unverifiable",
+          "reason": "no generic EVM check for controlled_by",
+          "steps": []
+        }
+      ]
+    }
+  ]
+}
+```
+
+The signature recovers to the wallet without any network access, so the verification is `valid`. The SDK has no generic on-chain check for a `controlled_by` authority, so that check is `unverifiable`. An unverifiable check doesn't count against the token. One valid verification and no invalid checks make the evidence `confirmed`, which matches Bluprynt's claim.
 
 ## What gets checked
 
