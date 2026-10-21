@@ -57,7 +57,8 @@
     "test": "vitest run --passWithNoTests"
   },
   "dependencies": {
-    "@bluprynt/sdk-core": "workspace:*"
+    "@bluprynt/sdk-core": "workspace:*",
+    "viem": "^2.57.5"
   },
   "license": "MIT"
 }

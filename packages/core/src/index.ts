@@ -3,6 +3,7 @@
 /** CAIP-2 style chain identifier, e.g. "eip155:1", "solana:mainnet". */
 export type ChainId = string;
 
+export * from "./kyi.js";
 export * from "./wallet-verification.js";
 
 export interface Credential {

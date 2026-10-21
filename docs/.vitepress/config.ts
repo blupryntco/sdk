@@ -13,7 +13,10 @@ export default defineConfig({
     sidebar: [
       {
         text: "Guide",
-        items: [{ text: "Wallet verification", link: "/wallet-verification" }],
+        items: [
+          { text: "Wallet verification", link: "/wallet-verification" },
+          { text: "Verifying KYI claims", link: "/kyi-verification" },
+        ],
       },
     ],
     search: { provider: "local" },
