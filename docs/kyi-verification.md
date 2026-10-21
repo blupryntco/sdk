@@ -156,18 +156,20 @@ The signature recovers to the wallet without any network access, so the verifica
 
 ### Verifications
 
-For each verification, the SDK first checks that `wallet_address` is the authority itself or one of its signers. It also checks that the verification hasn't expired. It then re-checks the proof according to its method:
+For each verification, the SDK first checks that `wallet_address` is the authority itself or one of its signers. It then re-checks the proof according to its method:
 
 | Method | Check | Needs RPC |
 | --- | --- | --- |
 | `signature` / `eip191` | The signature over the stored message recovers to the wallet | No |
 | `signature` / `eip712` | The typed-data signature recovers to the wallet | No |
 | `contract_signature` / `eip1271` | `isValidSignature` on the wallet contract, at the recorded block | Yes |
-| `transfer` / `amount` | The transaction succeeded and was sent from the wallet. For the native asset (`slip44`), its recipient and value match. For an ERC-20 token, the receipt contains a matching `Transfer` event | Yes |
+| `transfer` / `amount` | The transaction succeeded, was sent from the wallet, and the asset is on the transaction's chain. For the native asset (`slip44`), its recipient and value match. For an ERC-20 token, the receipt contains a matching `Transfer` event | Yes |
 | `transfer` / `memo` | The transaction succeeded, its sender and recipient match, and its calldata carries the memo | Yes |
 | `admin_manual` | Not re-checkable. Reported as `unverifiable` | — |
 
 When a signature's scheme wasn't recorded, the SDK assumes EIP-191 for `0x…` wallets. It notes this assumption in the step description.
+
+A verification whose `expires_at` has passed is reported as `unverifiable`, not `invalid`. An expired proof no longer shows control, but it doesn't disprove anything either, so it can't override another, current proof. If an expired proof fails its check, it's still `invalid`.
 
 ### Authorities
 
@@ -183,8 +185,8 @@ Authority types without a generic EVM check are reported as `unverifiable`.
 Every check returns a `ClaimCheck` with a `status`:
 
 - **`valid`:** every step passed.
-- **`invalid`:** a step failed. `reason` names the failed step. A transaction that doesn't exist or a contract call that reverts also counts as a failure.
-- **`unverifiable`:** the claim couldn't be checked, for example because the proof material is missing or the method isn't supported.
+- **`invalid`:** a step failed. `reason` names the failed step. A transaction that doesn't exist, a contract call that reverts, or a call to an address with no contract also counts as a failure.
+- **`unverifiable`:** the claim couldn't be checked or no longer holds, for example because the proof material is missing, the method isn't supported, or the verification has expired.
 
 Each check also lists its `steps`, including the expected and actual values and whether the step ran `offline` or over `rpc`. You can log or store them as an audit trail.
 
@@ -202,4 +204,4 @@ At the response level, `verified` is `true` if any token is verified.
 
 ## RPC configuration
 
-Pass RPC endpoints in `rpcUrls`, keyed by CAIP-2 chain ID. Signature checks run offline. Contract signatures, transfers and authorities need an RPC for their chain. If one isn't configured, the call throws `RPC not configured for <caip2>`. Transport errors are also thrown, not reported as failed checks. This way, a flaky RPC can't make a valid claim look `invalid`.
+Pass RPC endpoints in `rpcUrls`, keyed by CAIP-2 chain ID. Signature checks run offline. Contract signatures, transfers and authorities need an RPC for their chain. If one isn't configured, the call throws `RPC not configured for <caip2>`. Network and RPC errors, such as timeouts or rate limits, are also thrown, not reported as failed checks. This way, a flaky RPC can't make a valid claim look `invalid`.

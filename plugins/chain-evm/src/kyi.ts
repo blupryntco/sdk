@@ -18,6 +18,8 @@ import type {
 import {
   type Address,
   ContractFunctionExecutionError,
+  ContractFunctionRevertedError,
+  ContractFunctionZeroDataError,
   createPublicClient,
   erc20Abi,
   type Hex,
@@ -178,11 +180,10 @@ export async function checkKyiVerification(
     [authority.address, ...authority.signers],
     wallet,
   );
-  if (expires_at) {
-    const now = new Date().toISOString();
-    t.check("verification not expired", now < expires_at, expires_at, now);
-  }
   await onchain(t, () => checkMethod(t, wallet, method, options));
+  if (expires_at && Date.parse(expires_at) <= Date.now()) {
+    t.skip(`verification expired at ${expires_at}`);
+  }
 
   return t.result("verification", wallet, methodLabel(method));
 }
@@ -293,7 +294,9 @@ async function checkAmountTransfer(
   );
   t.address("transaction sender", sender, tx.from);
 
-  const [, namespace, reference] = asset.match(/^[^/]+\/([^:]+):(.+)$/) ?? [];
+  const [, chain, namespace, reference] =
+    asset.match(/^([^/]+)\/([^:]+):(.+)$/) ?? [];
+  t.check("asset is on the transaction's chain", chain === caip2, caip2, chain);
   if (namespace === "slip44") {
     if (recipient) t.address("transaction recipient", recipient, tx.to);
     t.check(
@@ -320,7 +323,7 @@ async function checkAmountTransfer(
           same(x.token, reference) &&
           same(x.from, sender) &&
           (!recipient || same(x.to, recipient)) &&
-          x.value === amount,
+          x.value === BigInt(amount).toString(),
       ),
       { token: reference, from: sender, to: recipient, value: amount },
       transfers,
@@ -448,7 +451,12 @@ async function onchain(t: Trail, run: () => Promise<void>): Promise<void> {
     if (
       err instanceof TransactionNotFoundError ||
       err instanceof TransactionReceiptNotFoundError ||
-      err instanceof ContractFunctionExecutionError
+      (err instanceof ContractFunctionExecutionError &&
+        err.walk(
+          (e) =>
+            e instanceof ContractFunctionRevertedError ||
+            e instanceof ContractFunctionZeroDataError,
+        ))
     ) {
       t.check("on-chain lookup", false, undefined, err.shortMessage);
       return;

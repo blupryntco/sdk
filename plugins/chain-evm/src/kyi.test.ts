@@ -3,15 +3,21 @@ import type {
   KyiTokenLookupItem,
   KyiVerification,
 } from "@bluprynt/sdk-core";
-import { numberToHex } from "viem";
+import { encodeEventTopics, erc20Abi, numberToHex, pad } from "viem";
 import { generatePrivateKey, privateKeyToAccount } from "viem/accounts";
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { checkKyiVerification, verifyKyiResponse } from "./kyi.js";
+import {
+  checkKyiAuthority,
+  checkKyiVerification,
+  verifyKyiResponse,
+} from "./kyi.js";
 
 const account = privateKeyToAccount(generatePrivateKey());
 const other = privateKeyToAccount(generatePrivateKey());
 const recipient = "0x000000000000000000000000000000000000b10b";
+const token = "0x000000000000000000000000000000000000c0de";
 const txHash = `0x${"ab".repeat(32)}`;
+const blockHash = `0x${"cd".repeat(32)}`;
 const rpcUrls = { "eip155:1": "https://rpc.test" };
 
 const authority: KyiAuthority = {
@@ -44,9 +50,20 @@ async function signed(message: string) {
   });
 }
 
+function stubRpc(reply: (method: string) => object) {
+  vi.stubGlobal(
+    "fetch",
+    vi.fn(async (_url: string, init: RequestInit) => {
+      const { id, method } = JSON.parse(init.body as string);
+      return Response.json({ jsonrpc: "2.0", id, ...reply(method) });
+    }),
+  );
+}
+
 function mockRpc(
   tx: { from: string; to: string; value: bigint },
   status = "0x1",
+  logs: object[] = [],
 ) {
   const results: Record<string, unknown> = {
     eth_getTransactionByHash: {
@@ -71,7 +88,7 @@ function mockRpc(
       from: tx.from,
       to: tx.to,
       status,
-      logs: [],
+      logs,
       blockHash: `0x${"cd".repeat(32)}`,
       blockNumber: "0x1",
       transactionIndex: "0x0",
@@ -83,25 +100,41 @@ function mockRpc(
       type: "0x0",
     },
   };
-  vi.stubGlobal(
-    "fetch",
-    vi.fn(async (_url: string, init: RequestInit) => {
-      const { id, method } = JSON.parse(init.body as string);
-      return Response.json({ jsonrpc: "2.0", id, result: results[method] });
-    }),
-  );
+  stubRpc((method) => ({ result: results[method] }));
 }
 
-const amountTransfer = (amount: string): KyiVerification["method"] => ({
+const transferLog = (value: bigint) => ({
+  address: token,
+  topics: encodeEventTopics({
+    abi: erc20Abi,
+    eventName: "Transfer",
+    args: { from: account.address, to: recipient },
+  }),
+  data: pad(numberToHex(value)),
+  blockHash,
+  blockNumber: "0x1",
+  transactionHash: txHash,
+  transactionIndex: "0x0",
+  logIndex: "0x0",
+  removed: false,
+});
+
+const amountTransfer = (
+  amount: string,
+  asset = "eip155:1/slip44:60",
+): KyiVerification["method"] => ({
   type: "transfer",
   kind: "amount",
   caip2: "eip155:1",
   transaction_hash: txHash,
   sender: account.address,
   recipient,
-  asset: "eip155:1/slip44:60",
+  asset,
   amount,
 });
+
+const inHours = (hours: number, offset: string) =>
+  `${new Date(Date.now() + hours * 3_600_000).toISOString().slice(0, 19)}${offset}`;
 
 afterEach(() => vi.unstubAllGlobals());
 
@@ -184,6 +217,68 @@ describe("checkKyiVerification", () => {
     const v = verification(amountTransfer("1230"));
     await expect(checkKyiVerification(v)).rejects.toThrow(/RPC not configured/);
   });
+
+  it("accepts a matching ERC-20 transfer with a non-canonical amount", async () => {
+    mockRpc({ from: account.address, to: token, value: 0n }, "0x1", [
+      transferLog(1230n),
+    ]);
+    const v = verification(amountTransfer("01230", `eip155:1/erc20:${token}`));
+    expect((await checkKyiVerification(v, { rpcUrls })).status).toBe("valid");
+  });
+
+  it("rejects a transfer whose asset is on another chain", async () => {
+    mockRpc({ from: account.address, to: recipient, value: 1230n });
+    const v = verification(amountTransfer("1230", "eip155:137/slip44:60"));
+    expect((await checkKyiVerification(v, { rpcUrls })).reason).toBe(
+      "asset is on the transaction's chain failed",
+    );
+  });
+
+  it("treats an expired proof as unverifiable, not invalid", async () => {
+    const v = await signed("bluprynt challenge");
+    v.expires_at = inHours(2, "+05:00");
+    const result = await checkKyiVerification(v);
+    expect(result).toMatchObject({ status: "unverifiable" });
+    expect(result.reason).toMatch(/expired/);
+  });
+
+  it("accepts a proof that has not expired yet", async () => {
+    const v = await signed("bluprynt challenge");
+    v.expires_at = inHours(-2, "-05:00");
+    expect((await checkKyiVerification(v)).status).toBe("valid");
+  });
+
+  it("still rejects a tampered proof once expired", async () => {
+    const v = await signed("bluprynt challenge");
+    if (v.method.type === "signature") v.method.message = "tampered";
+    v.expires_at = inHours(-1, "Z");
+    expect((await checkKyiVerification(v)).status).toBe("invalid");
+  });
+});
+
+describe("checkKyiAuthority", () => {
+  const check = () =>
+    checkKyiAuthority("eip155:1", token, authority, { rpcUrls });
+
+  it("rejects an owner() call that reverts", async () => {
+    stubRpc(() => ({
+      error: { code: 3, message: "execution reverted", data: "0x" },
+    }));
+    expect((await check()).reason).toBe("on-chain lookup failed");
+  });
+
+  it("rejects a token with no owner()", async () => {
+    stubRpc(() => ({ result: "0x" }));
+    expect((await check()).reason).toBe("on-chain lookup failed");
+  });
+
+  it("throws on transport errors instead of disproving the claim", async () => {
+    vi.stubGlobal(
+      "fetch",
+      vi.fn(async () => new Response("boom", { status: 500 })),
+    );
+    await expect(check()).rejects.toThrow();
+  });
 });
 
 describe("verifyKyiResponse", () => {
@@ -252,6 +347,17 @@ describe("verifyKyiResponse", () => {
     ]);
     expect(report).toMatchObject({ verified: false, matchesClaim: false });
     expect(report.tokens[0]?.evidence).toBe("contradicted");
+  });
+
+  it("claimed with one valid and one expired proof: verified", async () => {
+    const expired = await signed("old challenge");
+    expired.expires_at = inHours(-1, "Z");
+    const report = await verify(true, [
+      await signed("bluprynt challenge"),
+      expired,
+    ]);
+    expect(report).toMatchObject({ verified: true, matchesClaim: true });
+    expect(report.tokens[0]?.evidence).toBe("confirmed");
   });
 
   it("not claimed and nothing to check: matches", async () => {
