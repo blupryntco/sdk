@@ -1,6 +1,6 @@
 // KYI token lookup record as served by the Bluprynt public API (`GET /kyi/v1/tokens`).
 //
-// @experimental — mirrors public-api `KyiTokenLookupResponseDto`; will drift until generated from OpenAPI.
+// @experimental — hand-written; will drift until generated from OpenAPI.
 
 export interface KyiSignatureMethod {
   type: "signature";
