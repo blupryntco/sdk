@@ -1,0 +1,226 @@
+{
+  "independent": {
+    "ed25519MasterKey": {
+      "wallet": "r3sNTMefq5gsRumMYsNznnX6yzzxVH6dTC",
+      "signerPublicKey": "ED06895BEC3FDE4090F06D840770D888D49E3089B3757C4285E3851BC33964E0F9",
+      "signatureVerifies": true,
+      "derivedAddress": "r3sNTMefq5gsRumMYsNznnX6yzzxVH6dTC",
+      "derivedAddressIsWallet": true
+    },
+    "secp256k1MasterKey": {
+      "wallet": "raa1x16A7hZRavaSTL8F8LQhFw7i3cUa4A",
+      "signerPublicKey": "03FBFD40E353E4829EE084AB6D150980D880C430C2BE12C567A732011B95EAA124",
+      "signatureVerifies": true,
+      "derivedAddress": "raa1x16A7hZRavaSTL8F8LQhFw7i3cUa4A",
+      "derivedAddressIsWallet": true
+    },
+    "regularKey": {
+      "wallet": "r3sNTMefq5gsRumMYsNznnX6yzzxVH6dTC",
+      "signerPublicKey": "03FBFD40E353E4829EE084AB6D150980D880C430C2BE12C567A732011B95EAA124",
+      "signatureVerifies": true,
+      "derivedAddress": "raa1x16A7hZRavaSTL8F8LQhFw7i3cUa4A",
+      "derivedAddressIsWallet": false
+    },
+    "tamperedMessage": {
+      "wallet": "r3sNTMefq5gsRumMYsNznnX6yzzxVH6dTC",
+      "signerPublicKey": "ED06895BEC3FDE4090F06D840770D888D49E3089B3757C4285E3851BC33964E0F9",
+      "signatureVerifies": false,
+      "derivedAddress": "r3sNTMefq5gsRumMYsNznnX6yzzxVH6dTC",
+      "derivedAddressIsWallet": true
+    }
+  },
+  "sdk": {
+    "report": {
+      "claimed": true,
+      "evidence": "confirmed",
+      "verified": true,
+      "matchesClaim": true,
+      "tokens": [
+        {
+          "caip19": "xrpl:0/iou:USD.r3sNTMefq5gsRumMYsNznnX6yzzxVH6dTC",
+          "claimed": true,
+          "evidence": "confirmed",
+          "verified": true,
+          "matchesClaim": true,
+          "checks": [
+            {
+              "kind": "verification",
+              "subject": "r3sNTMefq5gsRumMYsNznnX6yzzxVH6dTC",
+              "method": "signature:xrpl",
+              "proof": {
+                "status": "valid",
+                "steps": [
+                  {
+                    "check": "wallet is the authority or one of its signers",
+                    "via": "offline",
+                    "ok": true,
+                    "expected": [
+                      "r3sNTMefq5gsRumMYsNznnX6yzzxVH6dTC"
+                    ],
+                    "actual": "r3sNTMefq5gsRumMYsNznnX6yzzxVH6dTC"
+                  },
+                  {
+                    "check": "xrpl signature verifies for signer key",
+                    "via": "offline",
+                    "ok": true
+                  },
+                  {
+                    "check": "signer key is the wallet's master key",
+                    "via": "offline",
+                    "ok": true
+                  },
+                  {
+                    "check": "verification's authority is listed for the token",
+                    "via": "offline",
+                    "ok": true,
+                    "expected": [
+                      {
+                        "type": "issuer",
+                        "address": "r3sNTMefq5gsRumMYsNznnX6yzzxVH6dTC"
+                      }
+                    ],
+                    "actual": {
+                      "type": "issuer",
+                      "address": "r3sNTMefq5gsRumMYsNznnX6yzzxVH6dTC"
+                    }
+                  }
+                ]
+              },
+              "at": {}
+            },
+            {
+              "kind": "verification",
+              "subject": "r3sNTMefq5gsRumMYsNznnX6yzzxVH6dTC",
+              "method": "signature:xrpl",
+              "proof": {
+                "status": "unverifiable",
+                "reason": "signer is not the master key; online check needed",
+                "steps": [
+                  {
+                    "check": "wallet is the authority or one of its signers",
+                    "via": "offline",
+                    "ok": true,
+                    "expected": [
+                      "r3sNTMefq5gsRumMYsNznnX6yzzxVH6dTC"
+                    ],
+                    "actual": "r3sNTMefq5gsRumMYsNznnX6yzzxVH6dTC"
+                  },
+                  {
+                    "check": "xrpl signature verifies for signer key",
+                    "via": "offline",
+                    "ok": true
+                  },
+                  {
+                    "check": "verification's authority is listed for the token",
+                    "via": "offline",
+                    "ok": true,
+                    "expected": [
+                      {
+                        "type": "issuer",
+                        "address": "r3sNTMefq5gsRumMYsNznnX6yzzxVH6dTC"
+                      }
+                    ],
+                    "actual": {
+                      "type": "issuer",
+                      "address": "r3sNTMefq5gsRumMYsNznnX6yzzxVH6dTC"
+                    }
+                  }
+                ]
+              },
+              "at": {}
+            },
+            {
+              "kind": "authority",
+              "subject": "r3sNTMefq5gsRumMYsNznnX6yzzxVH6dTC",
+              "method": "issuer",
+              "at": {}
+            }
+          ],
+          "at": {}
+        },
+        {
+          "caip19": "xrpl:0/iou:EUR.raa1x16A7hZRavaSTL8F8LQhFw7i3cUa4A",
+          "claimed": true,
+          "evidence": "confirmed",
+          "verified": true,
+          "matchesClaim": true,
+          "checks": [
+            {
+              "kind": "verification",
+              "subject": "raa1x16A7hZRavaSTL8F8LQhFw7i3cUa4A",
+              "method": "signature:xrpl",
+              "proof": {
+                "status": "valid",
+                "steps": [
+                  {
+                    "check": "wallet is the authority or one of its signers",
+                    "via": "offline",
+                    "ok": true,
+                    "expected": [
+                      "raa1x16A7hZRavaSTL8F8LQhFw7i3cUa4A"
+                    ],
+                    "actual": "raa1x16A7hZRavaSTL8F8LQhFw7i3cUa4A"
+                  },
+                  {
+                    "check": "xrpl signature verifies for signer key",
+                    "via": "offline",
+                    "ok": true
+                  },
+                  {
+                    "check": "signer key is the wallet's master key",
+                    "via": "offline",
+                    "ok": true
+                  },
+                  {
+                    "check": "verification's authority is listed for the token",
+                    "via": "offline",
+                    "ok": true,
+                    "expected": [
+                      {
+                        "type": "issuer",
+                        "address": "raa1x16A7hZRavaSTL8F8LQhFw7i3cUa4A"
+                      }
+                    ],
+                    "actual": {
+                      "type": "issuer",
+                      "address": "raa1x16A7hZRavaSTL8F8LQhFw7i3cUa4A"
+                    }
+                  }
+                ]
+              },
+              "at": {}
+            },
+            {
+              "kind": "authority",
+              "subject": "raa1x16A7hZRavaSTL8F8LQhFw7i3cUa4A",
+              "method": "issuer",
+              "at": {}
+            }
+          ],
+          "at": {}
+        }
+      ],
+      "at": {}
+    },
+    "tamperedMessage": {
+      "status": "invalid",
+      "reason": "xrpl signature verifies for signer key failed",
+      "steps": [
+        {
+          "check": "wallet is the authority or one of its signers",
+          "via": "offline",
+          "ok": true,
+          "expected": [
+            "r3sNTMefq5gsRumMYsNznnX6yzzxVH6dTC"
+          ],
+          "actual": "r3sNTMefq5gsRumMYsNznnX6yzzxVH6dTC"
+        },
+        {
+          "check": "xrpl signature verifies for signer key",
+          "via": "offline",
+          "ok": false
+        }
+      ]
+    }
+  }
+}

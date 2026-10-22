@@ -1,0 +1,1008 @@
+{
+  "synthetic": "Synthetic rippled responses for a test-seed issuer that set a regular key and disabled its master key at ledger 99202693. Not a real network.",
+  "records": [
+    {
+      "request": {
+        "command": "ledger",
+        "ledger_index": "validated"
+      },
+      "response": {
+        "result": {
+          "ledger": {
+            "account_hash": "B246A2B2BB63F005B60B4D291530C5CEE2E4A29630297AEDA413083F59F67F55",
+            "close_flags": 0,
+            "close_time": 845820300,
+            "close_time_human": "2026-10-20 14:05:00.000000000 UTC",
+            "close_time_iso": "2026-10-20T14:05:00Z",
+            "close_time_resolution": 10,
+            "closed": true,
+            "ledger_hash": "E0D99FBB970FE0342983D413A5460B4D0C65BB0370120296739DEA7D1E912298",
+            "ledger_index": 99204000,
+            "parent_close_time": 845820296,
+            "parent_hash": "643DFF9E2F31D4608C0473B1428E213E75F136E33696116885520AE5D5A4132E",
+            "total_coins": "99985687626634189",
+            "transaction_hash": "16F83BECD425F0BA3AA52594561C2C470194A2E27866AD41AB7AEC286D42597E"
+          },
+          "ledger_hash": "E0D99FBB970FE0342983D413A5460B4D0C65BB0370120296739DEA7D1E912298",
+          "ledger_index": 99204000,
+          "status": "success",
+          "validated": true
+        },
+        "type": "response"
+      }
+    },
+    {
+      "request": {
+        "command": "account_info",
+        "account": "r3sNTMefq5gsRumMYsNznnX6yzzxVH6dTC",
+        "ledger_index": "validated"
+      },
+      "response": {
+        "result": {
+          "account_data": {
+            "Account": "r3sNTMefq5gsRumMYsNznnX6yzzxVH6dTC",
+            "Balance": "48750000",
+            "Flags": 9437184,
+            "LedgerEntryType": "AccountRoot",
+            "OwnerCount": 3,
+            "PreviousTxnID": "E2ABDEE60B31B0ACCA0945CA5CA5F9F2523181016E241C8F380874017719E43B",
+            "PreviousTxnLgrSeq": 99202693,
+            "RegularKey": "raa1x16A7hZRavaSTL8F8LQhFw7i3cUa4A",
+            "Sequence": 98765437,
+            "index": "2C4FF683B77FFED2905D8AA0371011323029FFE27897D0AE06996ECD798B7919"
+          },
+          "account_flags": {
+            "allowTrustLineClawback": false,
+            "defaultRipple": true,
+            "depositAuth": false,
+            "disableMasterKey": true,
+            "disallowIncomingCheck": false,
+            "disallowIncomingNFTokenOffer": false,
+            "disallowIncomingPayChan": false,
+            "disallowIncomingTrustline": false,
+            "disallowIncomingXRP": false,
+            "globalFreeze": false,
+            "noFreeze": false,
+            "passwordSpent": false,
+            "requireAuthorization": false,
+            "requireDestinationTag": false
+          },
+          "ledger_index": 99204000,
+          "status": "success",
+          "validated": true
+        },
+        "type": "response"
+      }
+    },
+    {
+      "request": {
+        "command": "account_info",
+        "account": "r3sNTMefq5gsRumMYsNznnX6yzzxVH6dTC",
+        "ledger_index": "validated",
+        "signer_lists": true
+      },
+      "response": {
+        "result": {
+          "account_data": {
+            "Account": "r3sNTMefq5gsRumMYsNznnX6yzzxVH6dTC",
+            "Balance": "48750000",
+            "Flags": 9437184,
+            "LedgerEntryType": "AccountRoot",
+            "OwnerCount": 3,
+            "PreviousTxnID": "E2ABDEE60B31B0ACCA0945CA5CA5F9F2523181016E241C8F380874017719E43B",
+            "PreviousTxnLgrSeq": 99202693,
+            "RegularKey": "raa1x16A7hZRavaSTL8F8LQhFw7i3cUa4A",
+            "Sequence": 98765437,
+            "index": "2C4FF683B77FFED2905D8AA0371011323029FFE27897D0AE06996ECD798B7919"
+          },
+          "account_flags": {
+            "allowTrustLineClawback": false,
+            "defaultRipple": true,
+            "depositAuth": false,
+            "disableMasterKey": true,
+            "disallowIncomingCheck": false,
+            "disallowIncomingNFTokenOffer": false,
+            "disallowIncomingPayChan": false,
+            "disallowIncomingTrustline": false,
+            "disallowIncomingXRP": false,
+            "globalFreeze": false,
+            "noFreeze": false,
+            "passwordSpent": false,
+            "requireAuthorization": false,
+            "requireDestinationTag": false
+          },
+          "signer_lists": [],
+          "ledger_index": 99204000,
+          "status": "success",
+          "validated": true
+        },
+        "type": "response"
+      }
+    },
+    {
+      "request": {
+        "command": "server_info"
+      },
+      "response": {
+        "result": {
+          "info": {
+            "build_version": "2.6.1",
+            "complete_ledgers": "99201000-99204000",
+            "server_state": "full",
+            "validated_ledger": {
+              "seq": 99204000,
+              "hash": "E0D99FBB970FE0342983D413A5460B4D0C65BB0370120296739DEA7D1E912298",
+              "age": 2
+            }
+          },
+          "status": "success"
+        },
+        "type": "response"
+      }
+    },
+    {
+      "request": {
+        "command": "ledger",
+        "ledger_index": 99201000
+      },
+      "response": {
+        "result": {
+          "ledger": {
+            "account_hash": "0769163325CB364AF6AB80646415000189E7E13A591AEA51FCA3FAA22B06E1C2",
+            "close_flags": 0,
+            "close_time": 845808600,
+            "close_time_human": "2026-10-20 10:50:00.000000000 UTC",
+            "close_time_iso": "2026-10-20T10:50:00Z",
+            "close_time_resolution": 10,
+            "closed": true,
+            "ledger_hash": "0AE35B46486C62C44DB82C826D9CEB6C89871AF73583DD089A56171E5A0257A5",
+            "ledger_index": 99201000,
+            "parent_close_time": 845808596,
+            "parent_hash": "9B4BA81CC9EC2966F24830B94709E04011C756828636DCBC1B951175EA18B131",
+            "total_coins": "99985687626634189",
+            "transaction_hash": "8C62AF804D26E48309422410E7A0FBFD65917A685A2ED92C8DE4EB726484A191"
+          },
+          "ledger_hash": "0AE35B46486C62C44DB82C826D9CEB6C89871AF73583DD089A56171E5A0257A5",
+          "ledger_index": 99201000,
+          "status": "success",
+          "validated": true
+        },
+        "type": "response"
+      }
+    },
+    {
+      "request": {
+        "command": "ledger",
+        "ledger_index": 99202500
+      },
+      "response": {
+        "result": {
+          "ledger": {
+            "account_hash": "F1D05DCAAD5EF883BF9B68536A5F898846F3A7CEED3921B26856710FDE93C1D4",
+            "close_flags": 0,
+            "close_time": 845814450,
+            "close_time_human": "2026-10-20 12:27:30.000000000 UTC",
+            "close_time_iso": "2026-10-20T12:27:30Z",
+            "close_time_resolution": 10,
+            "closed": true,
+            "ledger_hash": "ADB237811FF7E86552923E9717AFA13720AEA65F4BE736390E4B0803919ABC1E",
+            "ledger_index": 99202500,
+            "parent_close_time": 845814446,
+            "parent_hash": "6C4C480DB66FBB26204F543DD4C6C956BE96578881EA2128F9446F0AE666EA62",
+            "total_coins": "99985687626634189",
+            "transaction_hash": "D3851A2B40D5BA49C1D08C0EC01C525297646ED3A2FCAA3B5212183E11F376FC"
+          },
+          "ledger_hash": "ADB237811FF7E86552923E9717AFA13720AEA65F4BE736390E4B0803919ABC1E",
+          "ledger_index": 99202500,
+          "status": "success",
+          "validated": true
+        },
+        "type": "response"
+      }
+    },
+    {
+      "request": {
+        "command": "ledger",
+        "ledger_index": 99201750
+      },
+      "response": {
+        "result": {
+          "ledger": {
+            "account_hash": "4635B5A08401B2AE74AE8E55DC43C66A402F133FEE16A92F61A2E65006FF9D71",
+            "close_flags": 0,
+            "close_time": 845811525,
+            "close_time_human": "2026-10-20 11:38:45.000000000 UTC",
+            "close_time_iso": "2026-10-20T11:38:45Z",
+            "close_time_resolution": 10,
+            "closed": true,
+            "ledger_hash": "F3CF05D89A103273B9AD45E665D25E9BF75116629F543C77C07EAA76813D73F7",
+            "ledger_index": 99201750,
+            "parent_close_time": 845811521,
+            "parent_hash": "2E4D77E3A07F5EA9F6C20D6C173310E191AEA4923559D3158748C79CA94A84D9",
+            "total_coins": "99985687626634189",
+            "transaction_hash": "6ED58A286C3E2609B0393663B3B94EF36A4968254D4FBAED7141C2A62010403C"
+          },
+          "ledger_hash": "F3CF05D89A103273B9AD45E665D25E9BF75116629F543C77C07EAA76813D73F7",
+          "ledger_index": 99201750,
+          "status": "success",
+          "validated": true
+        },
+        "type": "response"
+      }
+    },
+    {
+      "request": {
+        "command": "ledger",
+        "ledger_index": 99203250
+      },
+      "response": {
+        "result": {
+          "ledger": {
+            "account_hash": "75B0E5E753208DC6DD5479F002068E06F959ACE19D41AF272C7E5CE070AF2BAE",
+            "close_flags": 0,
+            "close_time": 845817375,
+            "close_time_human": "2026-10-20 13:16:15.000000000 UTC",
+            "close_time_iso": "2026-10-20T13:16:15Z",
+            "close_time_resolution": 10,
+            "closed": true,
+            "ledger_hash": "64209890FFD74389C35E89A68E81595A5F085FC6A2EA4648F9ECBDF33F8262FE",
+            "ledger_index": 99203250,
+            "parent_close_time": 845817371,
+            "parent_hash": "856328238657743F7295786163E0D5F3515361859C27E78A47672BAFFE2DAB96",
+            "total_coins": "99985687626634189",
+            "transaction_hash": "FC5EE1FE60030FC50659A234EFF165FFA21CE1CD0C01F60DC90FA017CA7319F2"
+          },
+          "ledger_hash": "64209890FFD74389C35E89A68E81595A5F085FC6A2EA4648F9ECBDF33F8262FE",
+          "ledger_index": 99203250,
+          "status": "success",
+          "validated": true
+        },
+        "type": "response"
+      }
+    },
+    {
+      "request": {
+        "command": "ledger",
+        "ledger_index": 99202125
+      },
+      "response": {
+        "result": {
+          "ledger": {
+            "account_hash": "0D43BCD0AC6F3ED9102E8E3FF5D681B16B6FF0E5BF68F145015AD2118835BFB4",
+            "close_flags": 0,
+            "close_time": 845812987,
+            "close_time_human": "2026-10-20 12:03:07.000000000 UTC",
+            "close_time_iso": "2026-10-20T12:03:07Z",
+            "close_time_resolution": 10,
+            "closed": true,
+            "ledger_hash": "415C25B84F556CD8FF18583EF8133BEEAF902AEB2C74F246EE4371467E212667",
+            "ledger_index": 99202125,
+            "parent_close_time": 845812984,
+            "parent_hash": "2664D5DA0294ECB6D0AA74B56043C2429A1C6EAB3B0465653BDD5257953DDD04",
+            "total_coins": "99985687626634189",
+            "transaction_hash": "84BED4BD1711D374ADE8C373B5777D94F97C04382E61F6C970A73715F87E5F45"
+          },
+          "ledger_hash": "415C25B84F556CD8FF18583EF8133BEEAF902AEB2C74F246EE4371467E212667",
+          "ledger_index": 99202125,
+          "status": "success",
+          "validated": true
+        },
+        "type": "response"
+      }
+    },
+    {
+      "request": {
+        "command": "ledger",
+        "ledger_index": 99203625
+      },
+      "response": {
+        "result": {
+          "ledger": {
+            "account_hash": "710F8055E39A49169325265E9349CFF0E7EFA82260C425A74C49742AE14FFCDD",
+            "close_flags": 0,
+            "close_time": 845818837,
+            "close_time_human": "2026-10-20 13:40:37.000000000 UTC",
+            "close_time_iso": "2026-10-20T13:40:37Z",
+            "close_time_resolution": 10,
+            "closed": true,
+            "ledger_hash": "D513CF352CE875A67B603CA88A7F8FA5C52188CD494A94B7F2BD652C37A328A7",
+            "ledger_index": 99203625,
+            "parent_close_time": 845818834,
+            "parent_hash": "F7B580F297F56F1814FE812DD6795EC98852996E9A3EB8CFC2F0382542308F85",
+            "total_coins": "99985687626634189",
+            "transaction_hash": "AC19B9672DDA7F30ECAC1EA11276B9B91468FC2C5D4D98B8A76CD78B63A841F1"
+          },
+          "ledger_hash": "D513CF352CE875A67B603CA88A7F8FA5C52188CD494A94B7F2BD652C37A328A7",
+          "ledger_index": 99203625,
+          "status": "success",
+          "validated": true
+        },
+        "type": "response"
+      }
+    },
+    {
+      "request": {
+        "command": "ledger",
+        "ledger_index": 99201937
+      },
+      "response": {
+        "result": {
+          "ledger": {
+            "account_hash": "22E8C5005EA06F67A9B42B44FB70F1EB36AC37A62109AA0F2418ACDD400D54B4",
+            "close_flags": 0,
+            "close_time": 845812254,
+            "close_time_human": "2026-10-20 11:50:54.000000000 UTC",
+            "close_time_iso": "2026-10-20T11:50:54Z",
+            "close_time_resolution": 10,
+            "closed": true,
+            "ledger_hash": "1A90A30EF8B949C5F19635FAE6222999B5BB9328D0657C7831F1F5776D413A86",
+            "ledger_index": 99201937,
+            "parent_close_time": 845812250,
+            "parent_hash": "73FB6642A3E6C900B16D66FD10606D223B0A3E16FA79AAFC2DC6A4CF1BE5B32A",
+            "total_coins": "99985687626634189",
+            "transaction_hash": "8B03E3375AF0AE4ABAC1C7BCC486D61FE8EF37DCD6161E8D3B3F1F697A72F09B"
+          },
+          "ledger_hash": "1A90A30EF8B949C5F19635FAE6222999B5BB9328D0657C7831F1F5776D413A86",
+          "ledger_index": 99201937,
+          "status": "success",
+          "validated": true
+        },
+        "type": "response"
+      }
+    },
+    {
+      "request": {
+        "command": "ledger",
+        "ledger_index": 99203437
+      },
+      "response": {
+        "result": {
+          "ledger": {
+            "account_hash": "1CA5B46FB2E529CE0068C9AAD59A6AA3CD25C9DF46CCD436D66177A4010411C3",
+            "close_flags": 0,
+            "close_time": 845818104,
+            "close_time_human": "2026-10-20 13:28:24.000000000 UTC",
+            "close_time_iso": "2026-10-20T13:28:24Z",
+            "close_time_resolution": 10,
+            "closed": true,
+            "ledger_hash": "9889785728B84DF26BA3B2F8040D8836BAC47F18B51C21858D0D2EE349ACDD03",
+            "ledger_index": 99203437,
+            "parent_close_time": 845818100,
+            "parent_hash": "E9289ABC36A4980C8319B6CAD7515B5906564148CAD2651000B352A413603F13",
+            "total_coins": "99985687626634189",
+            "transaction_hash": "9EF5B8855EB2E20EFBE89C5E584668C94F6EE919E9D9CDDEDBD25321352CA223"
+          },
+          "ledger_hash": "9889785728B84DF26BA3B2F8040D8836BAC47F18B51C21858D0D2EE349ACDD03",
+          "ledger_index": 99203437,
+          "status": "success",
+          "validated": true
+        },
+        "type": "response"
+      }
+    },
+    {
+      "request": {
+        "command": "ledger",
+        "ledger_index": 99202031
+      },
+      "response": {
+        "result": {
+          "ledger": {
+            "account_hash": "B701886B602DA5A42B90164A01EF3A44AC52638F51DF38CC215B87E3D70A130D",
+            "close_flags": 0,
+            "close_time": 845812621,
+            "close_time_human": "2026-10-20 11:57:01.000000000 UTC",
+            "close_time_iso": "2026-10-20T11:57:01Z",
+            "close_time_resolution": 10,
+            "closed": true,
+            "ledger_hash": "4DDECF93301CFA626D980B2F3A07268BAB6EB9ACCEC7DE2235B798D238210B70",
+            "ledger_index": 99202031,
+            "parent_close_time": 845812617,
+            "parent_hash": "9FB14A4F874D7CC64E000113E8DCEDCF2C095CA59B9E14A063A63227DC0167DB",
+            "total_coins": "99985687626634189",
+            "transaction_hash": "2CDDE4B352013E8DFC32312E802C719036941428289AA72C01BB3797A0E8D82A"
+          },
+          "ledger_hash": "4DDECF93301CFA626D980B2F3A07268BAB6EB9ACCEC7DE2235B798D238210B70",
+          "ledger_index": 99202031,
+          "status": "success",
+          "validated": true
+        },
+        "type": "response"
+      }
+    },
+    {
+      "request": {
+        "command": "ledger",
+        "ledger_index": 99203343
+      },
+      "response": {
+        "result": {
+          "ledger": {
+            "account_hash": "1E821D847109D6CDEAE2AD886D6B458F2971DD681463CA949EA26ADE4527D2A8",
+            "close_flags": 0,
+            "close_time": 845817738,
+            "close_time_human": "2026-10-20 13:22:18.000000000 UTC",
+            "close_time_iso": "2026-10-20T13:22:18Z",
+            "close_time_resolution": 10,
+            "closed": true,
+            "ledger_hash": "43BF1B9E85C44384A5B3D860326B6B74FF67894692865A890D377A18895F17C0",
+            "ledger_index": 99203343,
+            "parent_close_time": 845817734,
+            "parent_hash": "FD0F33166A0FE941CBA8F0B6AAB7BB67F12A4559CF237F1089068AFB226234B3",
+            "total_coins": "99985687626634189",
+            "transaction_hash": "B19E1F6E73ED0A7DAB041F0284AA19186A9A7BCC50B142D73A79915611154C41"
+          },
+          "ledger_hash": "43BF1B9E85C44384A5B3D860326B6B74FF67894692865A890D377A18895F17C0",
+          "ledger_index": 99203343,
+          "status": "success",
+          "validated": true
+        },
+        "type": "response"
+      }
+    },
+    {
+      "request": {
+        "command": "ledger",
+        "ledger_index": 99202078
+      },
+      "response": {
+        "result": {
+          "ledger": {
+            "account_hash": "92DF24C76CC35D5B15193993B46F3410D976C429978C4CD05EA3426A06F10210",
+            "close_flags": 0,
+            "close_time": 845812804,
+            "close_time_human": "2026-10-20 12:00:04.000000000 UTC",
+            "close_time_iso": "2026-10-20T12:00:04Z",
+            "close_time_resolution": 10,
+            "closed": true,
+            "ledger_hash": "A13D4223E4DFB7BD055F03C0BFA582CAD2578820666BC3E1DD97DCD159347AAA",
+            "ledger_index": 99202078,
+            "parent_close_time": 845812800,
+            "parent_hash": "DC6A7EE1D416BCC3881F5766E15CD5FAA0547A99193872667720AC1E31552E97",
+            "total_coins": "99985687626634189",
+            "transaction_hash": "75993F2A07A89AD7DD6AC15504632957D7E36B32476EB98EBFB42F135C121717"
+          },
+          "ledger_hash": "A13D4223E4DFB7BD055F03C0BFA582CAD2578820666BC3E1DD97DCD159347AAA",
+          "ledger_index": 99202078,
+          "status": "success",
+          "validated": true
+        },
+        "type": "response"
+      }
+    },
+    {
+      "request": {
+        "command": "ledger",
+        "ledger_index": 99203296
+      },
+      "response": {
+        "result": {
+          "ledger": {
+            "account_hash": "58C8D265D3121E3B53466DF8877EE1F7712E888D307569F6A3A1E3507AD93AE3",
+            "close_flags": 0,
+            "close_time": 845817554,
+            "close_time_human": "2026-10-20 13:19:14.000000000 UTC",
+            "close_time_iso": "2026-10-20T13:19:14Z",
+            "close_time_resolution": 10,
+            "closed": true,
+            "ledger_hash": "B9C6A90268C5B6F9F9FF6F93E356B01A7C1BA5CD7156610EAEFA7A8BAEA3CE42",
+            "ledger_index": 99203296,
+            "parent_close_time": 845817550,
+            "parent_hash": "2C687D1A88683FC077EBC12AA120F99118AA45DE51A8D00C2289A3F13B5B1FFD",
+            "total_coins": "99985687626634189",
+            "transaction_hash": "1111FED705BBC8464320DB2DDFC840CA64B2C42E5EFFA47371A8495912442A2E"
+          },
+          "ledger_hash": "B9C6A90268C5B6F9F9FF6F93E356B01A7C1BA5CD7156610EAEFA7A8BAEA3CE42",
+          "ledger_index": 99203296,
+          "status": "success",
+          "validated": true
+        },
+        "type": "response"
+      }
+    },
+    {
+      "request": {
+        "command": "ledger",
+        "ledger_index": 99202054
+      },
+      "response": {
+        "result": {
+          "ledger": {
+            "account_hash": "3C1C7FB28A4296C642863A2E7D513EAFB1C4FDA2127462D0D7C72EB696D1530F",
+            "close_flags": 0,
+            "close_time": 845812711,
+            "close_time_human": "2026-10-20 11:58:31.000000000 UTC",
+            "close_time_iso": "2026-10-20T11:58:31Z",
+            "close_time_resolution": 10,
+            "closed": true,
+            "ledger_hash": "C085D5D3F7C22815E2E209F585A3A668AF2E8F9D270C8E06D33FCA588E6C028A",
+            "ledger_index": 99202054,
+            "parent_close_time": 845812707,
+            "parent_hash": "4D93F089382B2496D19A541F0FE3BF39DFD94FB6C97F416B2ECB5630F60BE5B0",
+            "total_coins": "99985687626634189",
+            "transaction_hash": "66F6CC78E8027BED7F9C3AA5EE1A7058BE8CD9382762EF7303450410F538A07C"
+          },
+          "ledger_hash": "C085D5D3F7C22815E2E209F585A3A668AF2E8F9D270C8E06D33FCA588E6C028A",
+          "ledger_index": 99202054,
+          "status": "success",
+          "validated": true
+        },
+        "type": "response"
+      }
+    },
+    {
+      "request": {
+        "command": "ledger",
+        "ledger_index": 99203319
+      },
+      "response": {
+        "result": {
+          "ledger": {
+            "account_hash": "B4036D20537C1597B3F0768D5BEE084E20AD49D44738B8EF014EB470E33C7D18",
+            "close_flags": 0,
+            "close_time": 845817644,
+            "close_time_human": "2026-10-20 13:20:44.000000000 UTC",
+            "close_time_iso": "2026-10-20T13:20:44Z",
+            "close_time_resolution": 10,
+            "closed": true,
+            "ledger_hash": "B20CD4C9BFE117A5B49DA9A63BC4EC8A8A7CA9AB95C5E25A2117DB4AE264B978",
+            "ledger_index": 99203319,
+            "parent_close_time": 845817640,
+            "parent_hash": "1D005C6B0EDA112B1DABFC0875C37BC9E3B5005B8AC54CF29A82F2451E58FCE7",
+            "total_coins": "99985687626634189",
+            "transaction_hash": "E4E18FCB9138743C967C6A957A219184CE4F8613EE385E6B5A2681BD976AC61C"
+          },
+          "ledger_hash": "B20CD4C9BFE117A5B49DA9A63BC4EC8A8A7CA9AB95C5E25A2117DB4AE264B978",
+          "ledger_index": 99203319,
+          "status": "success",
+          "validated": true
+        },
+        "type": "response"
+      }
+    },
+    {
+      "request": {
+        "command": "ledger",
+        "ledger_index": 99202066
+      },
+      "response": {
+        "result": {
+          "ledger": {
+            "account_hash": "BD608F8B743B44CE606215B00DDF11ECDC9BDDC3269D21D6AFF5603754EFA033",
+            "close_flags": 0,
+            "close_time": 845812757,
+            "close_time_human": "2026-10-20 11:59:17.000000000 UTC",
+            "close_time_iso": "2026-10-20T11:59:17Z",
+            "close_time_resolution": 10,
+            "closed": true,
+            "ledger_hash": "DD7DA5991F997E0CAAC7219EFE11B563DD42187BD0D2ABAF3D24AEC21CD56418",
+            "ledger_index": 99202066,
+            "parent_close_time": 845812753,
+            "parent_hash": "2A9958307AF0F421D356CA328828552AC405A8157FBF0A2EB3357A8308E8DF87",
+            "total_coins": "99985687626634189",
+            "transaction_hash": "B908E975D77AE9EA4544D6FCE6425FFB1783DA482D1B26BD61D763D2E7455DC6"
+          },
+          "ledger_hash": "DD7DA5991F997E0CAAC7219EFE11B563DD42187BD0D2ABAF3D24AEC21CD56418",
+          "ledger_index": 99202066,
+          "status": "success",
+          "validated": true
+        },
+        "type": "response"
+      }
+    },
+    {
+      "request": {
+        "command": "ledger",
+        "ledger_index": 99203307
+      },
+      "response": {
+        "result": {
+          "ledger": {
+            "account_hash": "A72EFBD4AFA2C35D1CA57CE3B5A3D103EADDDA001726EE8D78684D9B16B27DFF",
+            "close_flags": 0,
+            "close_time": 845817597,
+            "close_time_human": "2026-10-20 13:19:57.000000000 UTC",
+            "close_time_iso": "2026-10-20T13:19:57Z",
+            "close_time_resolution": 10,
+            "closed": true,
+            "ledger_hash": "79AF00AD5BE12DED488FBE0E44FC47045BF4429325E35AD9B7011BEDA0756981",
+            "ledger_index": 99203307,
+            "parent_close_time": 845817593,
+            "parent_hash": "D1EB8C27E77E0F8C4E7062FD9283AFE667EA1351201BEE01AEF3034ECD596E35",
+            "total_coins": "99985687626634189",
+            "transaction_hash": "848BF7AD93543933AACD613701A0C67AC570126A266BEF023C9AFF4821029821"
+          },
+          "ledger_hash": "79AF00AD5BE12DED488FBE0E44FC47045BF4429325E35AD9B7011BEDA0756981",
+          "ledger_index": 99203307,
+          "status": "success",
+          "validated": true
+        },
+        "type": "response"
+      }
+    },
+    {
+      "request": {
+        "command": "ledger",
+        "ledger_index": 99202072
+      },
+      "response": {
+        "result": {
+          "ledger": {
+            "account_hash": "E6A19E2A5307EAFCA4C191497535A76736E2C33B490FC9020FEDB0331985B1CA",
+            "close_flags": 0,
+            "close_time": 845812781,
+            "close_time_human": "2026-10-20 11:59:41.000000000 UTC",
+            "close_time_iso": "2026-10-20T11:59:41Z",
+            "close_time_resolution": 10,
+            "closed": true,
+            "ledger_hash": "BDC5FD552FB3B46D272E7BDA45C9D27CCFD70481D5FA63FF0C70C6523D6E080A",
+            "ledger_index": 99202072,
+            "parent_close_time": 845812777,
+            "parent_hash": "297A0FB94B30EEB64CD49C81F88EF63744C54B3A8CBA76E095B94435A3F3DD84",
+            "total_coins": "99985687626634189",
+            "transaction_hash": "00A2FC00E0FCE10A7D45BDE825456DF8215FA2912F575E87549526C009E249E9"
+          },
+          "ledger_hash": "BDC5FD552FB3B46D272E7BDA45C9D27CCFD70481D5FA63FF0C70C6523D6E080A",
+          "ledger_index": 99202072,
+          "status": "success",
+          "validated": true
+        },
+        "type": "response"
+      }
+    },
+    {
+      "request": {
+        "command": "ledger",
+        "ledger_index": 99203313
+      },
+      "response": {
+        "result": {
+          "ledger": {
+            "account_hash": "8BC75FD5EE01BCB885D6EC06F30C7A6238D3ACA186DD8AC445AE39921DF55C60",
+            "close_flags": 0,
+            "close_time": 845817621,
+            "close_time_human": "2026-10-20 13:20:21.000000000 UTC",
+            "close_time_iso": "2026-10-20T13:20:21Z",
+            "close_time_resolution": 10,
+            "closed": true,
+            "ledger_hash": "928400AA6BC7686DB123DEE462DE38E9BBC0C8E095FE5992DABBF61C510EA25E",
+            "ledger_index": 99203313,
+            "parent_close_time": 845817617,
+            "parent_hash": "DF81DFA1DE0B8F2BF6FD6DE4A185F2BCD8234F088D0158CF1EE495F55015A7BF",
+            "total_coins": "99985687626634189",
+            "transaction_hash": "2C45A21B360A6BA62E9F25D621A33BCA7D097CEC78C98F80C972F2D3213D98C6"
+          },
+          "ledger_hash": "928400AA6BC7686DB123DEE462DE38E9BBC0C8E095FE5992DABBF61C510EA25E",
+          "ledger_index": 99203313,
+          "status": "success",
+          "validated": true
+        },
+        "type": "response"
+      }
+    },
+    {
+      "request": {
+        "command": "ledger",
+        "ledger_index": 99202075
+      },
+      "response": {
+        "result": {
+          "ledger": {
+            "account_hash": "5CCAFE5C778F68172DB6355FA3E82BA28CE5C89EF2532DCE8161C16EA2C6DCFD",
+            "close_flags": 0,
+            "close_time": 845812792,
+            "close_time_human": "2026-10-20 11:59:52.000000000 UTC",
+            "close_time_iso": "2026-10-20T11:59:52Z",
+            "close_time_resolution": 10,
+            "closed": true,
+            "ledger_hash": "7006BB171534B5EF54A83136EB0FA537C0C2D0E981046973EBDC0110951F1DE9",
+            "ledger_index": 99202075,
+            "parent_close_time": 845812789,
+            "parent_hash": "2657F0F443BD00F56D8DEBA50B7FDBFA66D9A1A264F4E380C95CDCA27100CB2D",
+            "total_coins": "99985687626634189",
+            "transaction_hash": "D8BC19517C47107ACCD09C05F648ABB7E8918240E329DF4FA67C2F41151F61F9"
+          },
+          "ledger_hash": "7006BB171534B5EF54A83136EB0FA537C0C2D0E981046973EBDC0110951F1DE9",
+          "ledger_index": 99202075,
+          "status": "success",
+          "validated": true
+        },
+        "type": "response"
+      }
+    },
+    {
+      "request": {
+        "command": "ledger",
+        "ledger_index": 99203310
+      },
+      "response": {
+        "result": {
+          "ledger": {
+            "account_hash": "C41F539DF201C2A0502E99C02A16B4C18040A8079B29045F32D05BEF4FD77A6F",
+            "close_flags": 0,
+            "close_time": 845817609,
+            "close_time_human": "2026-10-20 13:20:09.000000000 UTC",
+            "close_time_iso": "2026-10-20T13:20:09Z",
+            "close_time_resolution": 10,
+            "closed": true,
+            "ledger_hash": "C1530A90C8B4987DCD6FD9BC612B614ABF6F050871EF1E35E1EC177BC912DE7B",
+            "ledger_index": 99203310,
+            "parent_close_time": 845817605,
+            "parent_hash": "600232419D6D7196717B6A53764F987EACBB70984004CAC3786B639223CBC3D8",
+            "total_coins": "99985687626634189",
+            "transaction_hash": "5C9B5FF3776C9EAEF24C7E938F0A6089071CE7235E90D8829211434B7FB66D6D"
+          },
+          "ledger_hash": "C1530A90C8B4987DCD6FD9BC612B614ABF6F050871EF1E35E1EC177BC912DE7B",
+          "ledger_index": 99203310,
+          "status": "success",
+          "validated": true
+        },
+        "type": "response"
+      }
+    },
+    {
+      "request": {
+        "command": "ledger",
+        "ledger_index": 99202076
+      },
+      "response": {
+        "result": {
+          "ledger": {
+            "account_hash": "474A95B45F6B3EF5532ABB2649B6DDB8A6B2053E79B3EE29E3A6BB79117113A3",
+            "close_flags": 0,
+            "close_time": 845812796,
+            "close_time_human": "2026-10-20 11:59:56.000000000 UTC",
+            "close_time_iso": "2026-10-20T11:59:56Z",
+            "close_time_resolution": 10,
+            "closed": true,
+            "ledger_hash": "32D585FCDB877366E78182830B9F3A6773587A1BAC5499A990CB0F956F1D1A28",
+            "ledger_index": 99202076,
+            "parent_close_time": 845812792,
+            "parent_hash": "7006BB171534B5EF54A83136EB0FA537C0C2D0E981046973EBDC0110951F1DE9",
+            "total_coins": "99985687626634189",
+            "transaction_hash": "B2721B2F537088EFC57F2BCAE8DAD135D22885314C932FEB3428B9190547414F"
+          },
+          "ledger_hash": "32D585FCDB877366E78182830B9F3A6773587A1BAC5499A990CB0F956F1D1A28",
+          "ledger_index": 99202076,
+          "status": "success",
+          "validated": true
+        },
+        "type": "response"
+      }
+    },
+    {
+      "request": {
+        "command": "ledger",
+        "ledger_index": 99203308
+      },
+      "response": {
+        "result": {
+          "ledger": {
+            "account_hash": "A5DD8A47FA8FC2A8F62A4F19A915871B4DE6C1BC836BC53C4424525041111B69",
+            "close_flags": 0,
+            "close_time": 845817601,
+            "close_time_human": "2026-10-20 13:20:01.000000000 UTC",
+            "close_time_iso": "2026-10-20T13:20:01Z",
+            "close_time_resolution": 10,
+            "closed": true,
+            "ledger_hash": "B97A7A9A037CE4DA3A5A6824A116FDA9EA5AF0A2F667DB700B1D3CCE729A7670",
+            "ledger_index": 99203308,
+            "parent_close_time": 845817597,
+            "parent_hash": "79AF00AD5BE12DED488FBE0E44FC47045BF4429325E35AD9B7011BEDA0756981",
+            "total_coins": "99985687626634189",
+            "transaction_hash": "F4525E44DA31977EA973898607F60BE0AB3A158AB861F5E0D4627CE9D461A69C"
+          },
+          "ledger_hash": "B97A7A9A037CE4DA3A5A6824A116FDA9EA5AF0A2F667DB700B1D3CCE729A7670",
+          "ledger_index": 99203308,
+          "status": "success",
+          "validated": true
+        },
+        "type": "response"
+      }
+    },
+    {
+      "request": {
+        "command": "ledger",
+        "ledger_index": 99202077
+      },
+      "response": {
+        "result": {
+          "ledger": {
+            "account_hash": "362CD28742A18F0140889BB9E2820774CA029F3230957ADB7A2F91D47D83DC00",
+            "close_flags": 0,
+            "close_time": 845812800,
+            "close_time_human": "2026-10-20 12:00:00.000000000 UTC",
+            "close_time_iso": "2026-10-20T12:00:00Z",
+            "close_time_resolution": 10,
+            "closed": true,
+            "ledger_hash": "DC6A7EE1D416BCC3881F5766E15CD5FAA0547A99193872667720AC1E31552E97",
+            "ledger_index": 99202077,
+            "parent_close_time": 845812796,
+            "parent_hash": "32D585FCDB877366E78182830B9F3A6773587A1BAC5499A990CB0F956F1D1A28",
+            "total_coins": "99985687626634189",
+            "transaction_hash": "416DF4409D1CE4FD56904A1C0377E50E5A52CF00A14C2385FC486540B0DB0FD1"
+          },
+          "ledger_hash": "DC6A7EE1D416BCC3881F5766E15CD5FAA0547A99193872667720AC1E31552E97",
+          "ledger_index": 99202077,
+          "status": "success",
+          "validated": true
+        },
+        "type": "response"
+      }
+    },
+    {
+      "request": {
+        "command": "account_info",
+        "account": "r3sNTMefq5gsRumMYsNznnX6yzzxVH6dTC",
+        "ledger_index": 99203307,
+        "signer_lists": true
+      },
+      "response": {
+        "result": {
+          "account_data": {
+            "Account": "r3sNTMefq5gsRumMYsNznnX6yzzxVH6dTC",
+            "Balance": "48750000",
+            "Flags": 9437184,
+            "LedgerEntryType": "AccountRoot",
+            "OwnerCount": 3,
+            "PreviousTxnID": "E2ABDEE60B31B0ACCA0945CA5CA5F9F2523181016E241C8F380874017719E43B",
+            "PreviousTxnLgrSeq": 99202693,
+            "RegularKey": "raa1x16A7hZRavaSTL8F8LQhFw7i3cUa4A",
+            "Sequence": 98765437,
+            "index": "2C4FF683B77FFED2905D8AA0371011323029FFE27897D0AE06996ECD798B7919"
+          },
+          "account_flags": {
+            "allowTrustLineClawback": false,
+            "defaultRipple": true,
+            "depositAuth": false,
+            "disableMasterKey": true,
+            "disallowIncomingCheck": false,
+            "disallowIncomingNFTokenOffer": false,
+            "disallowIncomingPayChan": false,
+            "disallowIncomingTrustline": false,
+            "disallowIncomingXRP": false,
+            "globalFreeze": false,
+            "noFreeze": false,
+            "passwordSpent": false,
+            "requireAuthorization": false,
+            "requireDestinationTag": false
+          },
+          "signer_lists": [],
+          "ledger_index": 99203307,
+          "status": "success",
+          "validated": true
+        },
+        "type": "response"
+      }
+    },
+    {
+      "request": {
+        "command": "account_info",
+        "account": "r3sNTMefq5gsRumMYsNznnX6yzzxVH6dTC",
+        "ledger_index": 99203307
+      },
+      "response": {
+        "result": {
+          "account_data": {
+            "Account": "r3sNTMefq5gsRumMYsNznnX6yzzxVH6dTC",
+            "Balance": "48750000",
+            "Flags": 9437184,
+            "LedgerEntryType": "AccountRoot",
+            "OwnerCount": 3,
+            "PreviousTxnID": "E2ABDEE60B31B0ACCA0945CA5CA5F9F2523181016E241C8F380874017719E43B",
+            "PreviousTxnLgrSeq": 99202693,
+            "RegularKey": "raa1x16A7hZRavaSTL8F8LQhFw7i3cUa4A",
+            "Sequence": 98765437,
+            "index": "2C4FF683B77FFED2905D8AA0371011323029FFE27897D0AE06996ECD798B7919"
+          },
+          "account_flags": {
+            "allowTrustLineClawback": false,
+            "defaultRipple": true,
+            "depositAuth": false,
+            "disableMasterKey": true,
+            "disallowIncomingCheck": false,
+            "disallowIncomingNFTokenOffer": false,
+            "disallowIncomingPayChan": false,
+            "disallowIncomingTrustline": false,
+            "disallowIncomingXRP": false,
+            "globalFreeze": false,
+            "noFreeze": false,
+            "passwordSpent": false,
+            "requireAuthorization": false,
+            "requireDestinationTag": false
+          },
+          "ledger_index": 99203307,
+          "status": "success",
+          "validated": true
+        },
+        "type": "response"
+      }
+    },
+    {
+      "request": {
+        "command": "account_info",
+        "account": "r3sNTMefq5gsRumMYsNznnX6yzzxVH6dTC",
+        "ledger_index": 99202077
+      },
+      "response": {
+        "result": {
+          "account_data": {
+            "Account": "r3sNTMefq5gsRumMYsNznnX6yzzxVH6dTC",
+            "Balance": "48750000",
+            "Flags": 8388608,
+            "LedgerEntryType": "AccountRoot",
+            "OwnerCount": 3,
+            "PreviousTxnID": "F66DD04DFF32D958BF081133BACC23283E85C937BFB3A996FEE42A8DA2175749",
+            "PreviousTxnLgrSeq": 98388600,
+            "Sequence": 98765435,
+            "index": "2C4FF683B77FFED2905D8AA0371011323029FFE27897D0AE06996ECD798B7919"
+          },
+          "account_flags": {
+            "allowTrustLineClawback": false,
+            "defaultRipple": true,
+            "depositAuth": false,
+            "disableMasterKey": false,
+            "disallowIncomingCheck": false,
+            "disallowIncomingNFTokenOffer": false,
+            "disallowIncomingPayChan": false,
+            "disallowIncomingTrustline": false,
+            "disallowIncomingXRP": false,
+            "globalFreeze": false,
+            "noFreeze": false,
+            "passwordSpent": false,
+            "requireAuthorization": false,
+            "requireDestinationTag": false
+          },
+          "ledger_index": 99202077,
+          "status": "success",
+          "validated": true
+        },
+        "type": "response"
+      }
+    },
+    {
+      "request": {
+        "command": "account_info",
+        "account": "r3sNTMefq5gsRumMYsNznnX6yzzxVH6dTC",
+        "ledger_index": 99202077,
+        "signer_lists": true
+      },
+      "response": {
+        "result": {
+          "account_data": {
+            "Account": "r3sNTMefq5gsRumMYsNznnX6yzzxVH6dTC",
+            "Balance": "48750000",
+            "Flags": 8388608,
+            "LedgerEntryType": "AccountRoot",
+            "OwnerCount": 3,
+            "PreviousTxnID": "F66DD04DFF32D958BF081133BACC23283E85C937BFB3A996FEE42A8DA2175749",
+            "PreviousTxnLgrSeq": 98388600,
+            "Sequence": 98765435,
+            "index": "2C4FF683B77FFED2905D8AA0371011323029FFE27897D0AE06996ECD798B7919"
+          },
+          "account_flags": {
+            "allowTrustLineClawback": false,
+            "defaultRipple": true,
+            "depositAuth": false,
+            "disableMasterKey": false,
+            "disallowIncomingCheck": false,
+            "disallowIncomingNFTokenOffer": false,
+            "disallowIncomingPayChan": false,
+            "disallowIncomingTrustline": false,
+            "disallowIncomingXRP": false,
+            "globalFreeze": false,
+            "noFreeze": false,
+            "passwordSpent": false,
+            "requireAuthorization": false,
+            "requireDestinationTag": false
+          },
+          "signer_lists": [],
+          "ledger_index": 99202077,
+          "status": "success",
+          "validated": true
+        },
+        "type": "response"
+      }
+    }
+  ]
+}

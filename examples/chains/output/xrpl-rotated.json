@@ -1,0 +1,304 @@
+{
+  "issuer": "r3sNTMefq5gsRumMYsNznnX6yzzxVH6dTC",
+  "regularKey": "raa1x16A7hZRavaSTL8F8LQhFw7i3cUa4A",
+  "report": {
+    "claimed": true,
+    "evidence": "confirmed",
+    "verified": true,
+    "matchesClaim": true,
+    "tokens": [
+      {
+        "caip19": "xrpl:0/iou:USD.r3sNTMefq5gsRumMYsNznnX6yzzxVH6dTC",
+        "claimed": true,
+        "evidence": "confirmed",
+        "verified": true,
+        "matchesClaim": true,
+        "checks": [
+          {
+            "kind": "verification",
+            "subject": "r3sNTMefq5gsRumMYsNznnX6yzzxVH6dTC",
+            "method": "signature:xrpl",
+            "proof": {
+              "status": "valid",
+              "steps": [
+                {
+                  "check": "wallet is the authority or one of its signers",
+                  "via": "offline",
+                  "ok": true,
+                  "expected": [
+                    "r3sNTMefq5gsRumMYsNznnX6yzzxVH6dTC"
+                  ],
+                  "actual": "r3sNTMefq5gsRumMYsNznnX6yzzxVH6dTC"
+                },
+                {
+                  "check": "xrpl signature verifies for signer key",
+                  "via": "offline",
+                  "ok": true
+                },
+                {
+                  "check": "signer key is the wallet's master key",
+                  "via": "offline",
+                  "ok": true
+                },
+                {
+                  "check": "verification's authority is listed for the token",
+                  "via": "offline",
+                  "ok": true,
+                  "expected": [
+                    {
+                      "type": "issuer",
+                      "address": "r3sNTMefq5gsRumMYsNznnX6yzzxVH6dTC"
+                    }
+                  ],
+                  "actual": {
+                    "type": "issuer",
+                    "address": "r3sNTMefq5gsRumMYsNznnX6yzzxVH6dTC"
+                  }
+                }
+              ]
+            },
+            "at": {
+              "verified": {
+                "status": "valid",
+                "steps": [
+                  {
+                    "check": "xrpl signature verifies for signer key",
+                    "via": "offline",
+                    "ok": true
+                  },
+                  {
+                    "check": "signer key was authorised for the wallet",
+                    "via": "rpc",
+                    "ok": true
+                  },
+                  {
+                    "check": "issuer matches the token",
+                    "via": "offline",
+                    "ok": true,
+                    "expected": "r3sNTMefq5gsRumMYsNznnX6yzzxVH6dTC",
+                    "actual": "r3sNTMefq5gsRumMYsNznnX6yzzxVH6dTC"
+                  },
+                  {
+                    "check": "issuer account exists",
+                    "via": "rpc",
+                    "ok": true
+                  }
+                ],
+                "position": {
+                  "ledger": 99202077,
+                  "time": "2026-10-20T12:00:00.000Z"
+                }
+              },
+              "now": {
+                "status": "invalid",
+                "reason": "signer key was authorised for the wallet failed",
+                "steps": [
+                  {
+                    "check": "xrpl signature verifies for signer key",
+                    "via": "offline",
+                    "ok": true
+                  },
+                  {
+                    "check": "signer key was authorised for the wallet",
+                    "via": "rpc",
+                    "ok": false
+                  },
+                  {
+                    "check": "issuer matches the token",
+                    "via": "offline",
+                    "ok": true,
+                    "expected": "r3sNTMefq5gsRumMYsNznnX6yzzxVH6dTC",
+                    "actual": "r3sNTMefq5gsRumMYsNznnX6yzzxVH6dTC"
+                  },
+                  {
+                    "check": "issuer account exists",
+                    "via": "rpc",
+                    "ok": true
+                  }
+                ],
+                "position": {
+                  "ledger": 99204000
+                }
+              }
+            }
+          },
+          {
+            "kind": "verification",
+            "subject": "r3sNTMefq5gsRumMYsNznnX6yzzxVH6dTC",
+            "method": "signature:xrpl",
+            "proof": {
+              "status": "unverifiable",
+              "reason": "signer is not the master key; online check needed",
+              "steps": [
+                {
+                  "check": "wallet is the authority or one of its signers",
+                  "via": "offline",
+                  "ok": true,
+                  "expected": [
+                    "r3sNTMefq5gsRumMYsNznnX6yzzxVH6dTC"
+                  ],
+                  "actual": "r3sNTMefq5gsRumMYsNznnX6yzzxVH6dTC"
+                },
+                {
+                  "check": "xrpl signature verifies for signer key",
+                  "via": "offline",
+                  "ok": true
+                },
+                {
+                  "check": "verification's authority is listed for the token",
+                  "via": "offline",
+                  "ok": true,
+                  "expected": [
+                    {
+                      "type": "issuer",
+                      "address": "r3sNTMefq5gsRumMYsNznnX6yzzxVH6dTC"
+                    }
+                  ],
+                  "actual": {
+                    "type": "issuer",
+                    "address": "r3sNTMefq5gsRumMYsNznnX6yzzxVH6dTC"
+                  }
+                }
+              ]
+            },
+            "at": {
+              "verified": {
+                "status": "valid",
+                "steps": [
+                  {
+                    "check": "xrpl signature verifies for signer key",
+                    "via": "offline",
+                    "ok": true
+                  },
+                  {
+                    "check": "signer key was authorised for the wallet",
+                    "via": "rpc",
+                    "ok": true
+                  },
+                  {
+                    "check": "issuer matches the token",
+                    "via": "offline",
+                    "ok": true,
+                    "expected": "r3sNTMefq5gsRumMYsNznnX6yzzxVH6dTC",
+                    "actual": "r3sNTMefq5gsRumMYsNznnX6yzzxVH6dTC"
+                  },
+                  {
+                    "check": "issuer account exists",
+                    "via": "rpc",
+                    "ok": true
+                  }
+                ],
+                "position": {
+                  "ledger": 99203307,
+                  "time": "2026-10-20T13:19:57.000Z"
+                }
+              },
+              "now": {
+                "status": "valid",
+                "steps": [
+                  {
+                    "check": "xrpl signature verifies for signer key",
+                    "via": "offline",
+                    "ok": true
+                  },
+                  {
+                    "check": "signer key was authorised for the wallet",
+                    "via": "rpc",
+                    "ok": true
+                  },
+                  {
+                    "check": "issuer matches the token",
+                    "via": "offline",
+                    "ok": true,
+                    "expected": "r3sNTMefq5gsRumMYsNznnX6yzzxVH6dTC",
+                    "actual": "r3sNTMefq5gsRumMYsNznnX6yzzxVH6dTC"
+                  },
+                  {
+                    "check": "issuer account exists",
+                    "via": "rpc",
+                    "ok": true
+                  }
+                ],
+                "position": {
+                  "ledger": 99204000
+                }
+              }
+            }
+          },
+          {
+            "kind": "authority",
+            "subject": "r3sNTMefq5gsRumMYsNznnX6yzzxVH6dTC",
+            "method": "issuer",
+            "at": {
+              "verified": {
+                "status": "valid",
+                "steps": [
+                  {
+                    "check": "issuer matches the token",
+                    "via": "offline",
+                    "ok": true,
+                    "expected": "r3sNTMefq5gsRumMYsNznnX6yzzxVH6dTC",
+                    "actual": "r3sNTMefq5gsRumMYsNznnX6yzzxVH6dTC"
+                  },
+                  {
+                    "check": "issuer account exists",
+                    "via": "rpc",
+                    "ok": true
+                  }
+                ],
+                "position": {
+                  "ledger": 99202077,
+                  "time": "2026-10-20T12:00:00.000Z"
+                }
+              },
+              "now": {
+                "status": "valid",
+                "steps": [
+                  {
+                    "check": "issuer matches the token",
+                    "via": "offline",
+                    "ok": true,
+                    "expected": "r3sNTMefq5gsRumMYsNznnX6yzzxVH6dTC",
+                    "actual": "r3sNTMefq5gsRumMYsNznnX6yzzxVH6dTC"
+                  },
+                  {
+                    "check": "issuer account exists",
+                    "via": "rpc",
+                    "ok": true
+                  }
+                ],
+                "position": {
+                  "ledger": 99204000
+                }
+              }
+            }
+          }
+        ],
+        "at": {
+          "verified": {
+            "evidence": "confirmed",
+            "verified": true,
+            "matchesClaim": true
+          },
+          "now": {
+            "evidence": "contradicted",
+            "verified": false,
+            "matchesClaim": false
+          }
+        }
+      }
+    ],
+    "at": {
+      "verified": {
+        "evidence": "confirmed",
+        "verified": true,
+        "matchesClaim": true
+      },
+      "now": {
+        "evidence": "contradicted",
+        "verified": false,
+        "matchesClaim": false
+      }
+    }
+  }
+}

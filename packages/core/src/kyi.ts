@@ -128,6 +128,27 @@ export interface CheckStep {
   actual?: unknown;
 }
 
+/**
+ * A point in time to check chain state at: each record's own moment
+ * (`verified_at` / `observed_at`), the latest state, or a chosen instant.
+ */
+export type KyiMoment = "verified" | "now" | Date;
+
+/** Chain position a result was read at. */
+export interface KyiPosition {
+  block?: string;
+  slot?: string;
+  ledger?: number;
+  time?: string;
+}
+
+export interface CheckResult {
+  status: "valid" | "invalid" | "unverifiable";
+  reason?: string;
+  steps: CheckStep[];
+  position?: KyiPosition;
+}
+
 /** Outcome of independently re-checking one KYI claim. */
 export interface ClaimCheck {
   kind: "verification" | "authority";
@@ -135,9 +156,10 @@ export interface ClaimCheck {
   subject: string;
   /** How the claim was established, e.g. "signature:eip191", "transfer:amount", "owner". */
   method: string;
-  status: "valid" | "invalid" | "unverifiable";
-  reason?: string;
-  steps: CheckStep[];
+  /** Timeless facts (verifications only). */
+  proof?: CheckResult;
+  /** Chain state at each requested moment, keyed by "verified", "now" or the instant's ISO string. */
+  at: Record<string, CheckResult>;
 }
 
 /**
@@ -147,23 +169,26 @@ export interface ClaimCheck {
  */
 export type KyiEvidence = "confirmed" | "contradicted" | "inconclusive";
 
-export interface KyiTokenReport {
-  caip19: string;
-  /** What Bluprynt says (`kyi_verified`). */
-  claimed: boolean;
+export interface KyiSummary {
+  evidence: KyiEvidence;
   /** Whether the re-checked evidence lets us consider the asset verified. */
   verified: boolean;
   /** null when the record claims verification but the evidence can neither confirm nor refute it. */
   matchesClaim: boolean | null;
-  evidence: KyiEvidence;
-  checks: ClaimCheck[];
 }
 
-export interface KyiReport {
+/** Top-level summary is from timeless proofs only; `at` summarises each requested moment. */
+export interface KyiTokenReport extends KyiSummary {
+  caip19: string;
+  /** What Bluprynt says (`kyi_verified`). */
+  claimed: boolean;
+  checks: ClaimCheck[];
+  at: Record<string, KyiSummary>;
+}
+
+export interface KyiReport extends KyiSummary {
   /** Response-level `kyi_verified`: true if any token is claimed verified. */
   claimed: boolean;
-  /** True if any token is independently verified. */
-  verified: boolean;
-  matchesClaim: boolean | null;
   tokens: KyiTokenReport[];
+  at: Record<string, KyiSummary>;
 }

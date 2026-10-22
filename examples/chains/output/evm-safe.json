@@ -1,0 +1,272 @@
+{
+  "safe": "0x5AFe00000000000000000000000000000000a11C",
+  "token": "0x7E57000000000000000000000000000000000020",
+  "claimedOwners": [
+    "0x19E7E376E7C213B7E7e7e46cc70A5dD086DAff2A",
+    "0x1563915e194D8CfBA1943570603F7606A3115508",
+    "0x5CbDd86a2FA8Dc4bDdd8a8f69dBa48572EeC07FB"
+  ],
+  "signer": "0x19E7E376E7C213B7E7e7e46cc70A5dD086DAff2A",
+  "report": {
+    "claimed": true,
+    "evidence": "confirmed",
+    "verified": true,
+    "matchesClaim": true,
+    "tokens": [
+      {
+        "caip19": "eip155:11155111/erc20:0x7E57000000000000000000000000000000000020",
+        "claimed": true,
+        "evidence": "confirmed",
+        "verified": true,
+        "matchesClaim": true,
+        "checks": [
+          {
+            "kind": "verification",
+            "subject": "0x19E7E376E7C213B7E7e7e46cc70A5dD086DAff2A",
+            "method": "signature:eip191",
+            "proof": {
+              "status": "valid",
+              "steps": [
+                {
+                  "check": "wallet is the authority or one of its signers",
+                  "via": "offline",
+                  "ok": true,
+                  "expected": [
+                    "0x5AFe00000000000000000000000000000000a11C",
+                    "0x19E7E376E7C213B7E7e7e46cc70A5dD086DAff2A",
+                    "0x1563915e194D8CfBA1943570603F7606A3115508",
+                    "0x5CbDd86a2FA8Dc4bDdd8a8f69dBa48572EeC07FB"
+                  ],
+                  "actual": "0x19E7E376E7C213B7E7e7e46cc70A5dD086DAff2A"
+                },
+                {
+                  "check": "eip191 signature recovers to wallet",
+                  "via": "offline",
+                  "ok": true,
+                  "expected": "0x19E7E376E7C213B7E7e7e46cc70A5dD086DAff2A",
+                  "actual": "0x19E7E376E7C213B7E7e7e46cc70A5dD086DAff2A"
+                },
+                {
+                  "check": "verification's authority is listed for the token",
+                  "via": "offline",
+                  "ok": true,
+                  "expected": [
+                    {
+                      "type": "owner",
+                      "address": "0x5AFe00000000000000000000000000000000a11C"
+                    }
+                  ],
+                  "actual": {
+                    "type": "owner",
+                    "address": "0x5AFe00000000000000000000000000000000a11C"
+                  }
+                }
+              ]
+            },
+            "at": {
+              "verified": {
+                "status": "valid",
+                "steps": [
+                  {
+                    "check": "eip191 signature recovers to wallet",
+                    "via": "offline",
+                    "ok": true,
+                    "expected": "0x19E7E376E7C213B7E7e7e46cc70A5dD086DAff2A",
+                    "actual": "0x19E7E376E7C213B7E7e7e46cc70A5dD086DAff2A"
+                  },
+                  {
+                    "check": "Safe owners match claimed signers",
+                    "via": "rpc",
+                    "ok": true,
+                    "expected": [
+                      "0x19E7E376E7C213B7E7e7e46cc70A5dD086DAff2A",
+                      "0x1563915e194D8CfBA1943570603F7606A3115508",
+                      "0x5CbDd86a2FA8Dc4bDdd8a8f69dBa48572EeC07FB"
+                    ],
+                    "actual": [
+                      "0x19E7E376E7C213B7E7e7e46cc70A5dD086DAff2A",
+                      "0x1563915e194D8CfBA1943570603F7606A3115508",
+                      "0x5CbDd86a2FA8Dc4bDdd8a8f69dBa48572EeC07FB"
+                    ]
+                  },
+                  {
+                    "check": "Safe threshold",
+                    "via": "rpc",
+                    "ok": true,
+                    "expected": 2,
+                    "actual": "2"
+                  },
+                  {
+                    "check": "token owner()",
+                    "via": "rpc",
+                    "ok": true,
+                    "expected": "0x5AFe00000000000000000000000000000000a11C",
+                    "actual": "0x5AFe00000000000000000000000000000000a11C"
+                  }
+                ],
+                "position": {
+                  "block": "8124750",
+                  "time": "2026-04-15T09:30:00.000Z"
+                }
+              },
+              "now": {
+                "status": "invalid",
+                "reason": "Safe owners match claimed signers failed",
+                "steps": [
+                  {
+                    "check": "eip191 signature recovers to wallet",
+                    "via": "offline",
+                    "ok": true,
+                    "expected": "0x19E7E376E7C213B7E7e7e46cc70A5dD086DAff2A",
+                    "actual": "0x19E7E376E7C213B7E7e7e46cc70A5dD086DAff2A"
+                  },
+                  {
+                    "check": "Safe owners match claimed signers",
+                    "via": "rpc",
+                    "ok": false,
+                    "expected": [
+                      "0x19E7E376E7C213B7E7e7e46cc70A5dD086DAff2A",
+                      "0x1563915e194D8CfBA1943570603F7606A3115508",
+                      "0x5CbDd86a2FA8Dc4bDdd8a8f69dBa48572EeC07FB"
+                    ],
+                    "actual": [
+                      "0x19E7E376E7C213B7E7e7e46cc70A5dD086DAff2A",
+                      "0x1563915e194D8CfBA1943570603F7606A3115508",
+                      "0x7564105E977516C53bE337314c7E53838967bDaC"
+                    ]
+                  },
+                  {
+                    "check": "Safe threshold",
+                    "via": "rpc",
+                    "ok": true,
+                    "expected": 2,
+                    "actual": "2"
+                  },
+                  {
+                    "check": "token owner()",
+                    "via": "rpc",
+                    "ok": true,
+                    "expected": "0x5AFe00000000000000000000000000000000a11C",
+                    "actual": "0x5AFe00000000000000000000000000000000a11C"
+                  }
+                ],
+                "position": {
+                  "block": "9480000",
+                  "time": "2026-10-20T15:00:00.000Z"
+                }
+              }
+            }
+          },
+          {
+            "kind": "authority",
+            "subject": "0x5AFe00000000000000000000000000000000a11C",
+            "method": "owner",
+            "at": {
+              "verified": {
+                "status": "valid",
+                "steps": [
+                  {
+                    "check": "Safe owners match claimed signers",
+                    "via": "rpc",
+                    "ok": true,
+                    "expected": [
+                      "0x19E7E376E7C213B7E7e7e46cc70A5dD086DAff2A",
+                      "0x1563915e194D8CfBA1943570603F7606A3115508",
+                      "0x5CbDd86a2FA8Dc4bDdd8a8f69dBa48572EeC07FB"
+                    ],
+                    "actual": [
+                      "0x19E7E376E7C213B7E7e7e46cc70A5dD086DAff2A",
+                      "0x1563915e194D8CfBA1943570603F7606A3115508",
+                      "0x5CbDd86a2FA8Dc4bDdd8a8f69dBa48572EeC07FB"
+                    ]
+                  },
+                  {
+                    "check": "Safe threshold",
+                    "via": "rpc",
+                    "ok": true,
+                    "expected": 2,
+                    "actual": "2"
+                  },
+                  {
+                    "check": "token owner()",
+                    "via": "rpc",
+                    "ok": true,
+                    "expected": "0x5AFe00000000000000000000000000000000a11C",
+                    "actual": "0x5AFe00000000000000000000000000000000a11C"
+                  }
+                ],
+                "position": {
+                  "block": "8124750",
+                  "time": "2026-04-15T09:30:00.000Z"
+                }
+              },
+              "now": {
+                "status": "invalid",
+                "reason": "Safe owners match claimed signers failed",
+                "steps": [
+                  {
+                    "check": "Safe owners match claimed signers",
+                    "via": "rpc",
+                    "ok": false,
+                    "expected": [
+                      "0x19E7E376E7C213B7E7e7e46cc70A5dD086DAff2A",
+                      "0x1563915e194D8CfBA1943570603F7606A3115508",
+                      "0x5CbDd86a2FA8Dc4bDdd8a8f69dBa48572EeC07FB"
+                    ],
+                    "actual": [
+                      "0x19E7E376E7C213B7E7e7e46cc70A5dD086DAff2A",
+                      "0x1563915e194D8CfBA1943570603F7606A3115508",
+                      "0x7564105E977516C53bE337314c7E53838967bDaC"
+                    ]
+                  },
+                  {
+                    "check": "Safe threshold",
+                    "via": "rpc",
+                    "ok": true,
+                    "expected": 2,
+                    "actual": "2"
+                  },
+                  {
+                    "check": "token owner()",
+                    "via": "rpc",
+                    "ok": true,
+                    "expected": "0x5AFe00000000000000000000000000000000a11C",
+                    "actual": "0x5AFe00000000000000000000000000000000a11C"
+                  }
+                ],
+                "position": {
+                  "block": "9480000",
+                  "time": "2026-10-20T15:00:00.000Z"
+                }
+              }
+            }
+          }
+        ],
+        "at": {
+          "verified": {
+            "evidence": "confirmed",
+            "verified": true,
+            "matchesClaim": true
+          },
+          "now": {
+            "evidence": "contradicted",
+            "verified": false,
+            "matchesClaim": false
+          }
+        }
+      }
+    ],
+    "at": {
+      "verified": {
+        "evidence": "confirmed",
+        "verified": true,
+        "matchesClaim": true
+      },
+      "now": {
+        "evidence": "contradicted",
+        "verified": false,
+        "matchesClaim": false
+      }
+    }
+  }
+}

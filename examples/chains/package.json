@@ -1,0 +1,23 @@
+{
+  "name": "@bluprynt/sdk-example-chains",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run --dir src",
+    "fixtures": "vitest run --dir scripts"
+  },
+  "dependencies": {
+    "@bluprynt/sdk-chain-evm": "workspace:*",
+    "@bluprynt/sdk-chain-solana": "workspace:*",
+    "@bluprynt/sdk-chain-xrpl": "workspace:*",
+    "@solana/kit": "^8.5.0",
+    "ripple-keypairs": "^3.1.0",
+    "viem": "^2.57.5",
+    "xrpl": "^5.3.0"
+  },
+  "devDependencies": {
+    "@types/node": "^26.1.1"
+  }
+}
