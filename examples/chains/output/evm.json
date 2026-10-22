@@ -1,0 +1,102 @@
+{
+  "independent": {
+    "wallet": "0xf748a9220b9b0d79d6eed2d927fcdfe80055b19c",
+    "recovered": "0xf748a9220B9B0D79D6eeD2D927fCdFE80055b19c",
+    "recoversToWallet": true,
+    "tamperedMessage": {
+      "recovered": "0x0BF280187914DFD1eF78C0afc6C29d5857eFcbcc",
+      "recoversToWallet": false
+    }
+  },
+  "sdk": {
+    "report": {
+      "claimed": true,
+      "evidence": "confirmed",
+      "verified": true,
+      "matchesClaim": true,
+      "tokens": [
+        {
+          "caip19": "eip155:11155111/erc20:0xcbc76ceb0afa037cbb975fd330bd683754998cc3",
+          "claimed": true,
+          "evidence": "confirmed",
+          "verified": true,
+          "matchesClaim": true,
+          "checks": [
+            {
+              "kind": "verification",
+              "subject": "0xf748a9220b9b0d79d6eed2d927fcdfe80055b19c",
+              "method": "signature:eip191",
+              "proof": {
+                "status": "valid",
+                "steps": [
+                  {
+                    "check": "wallet is the authority or one of its signers",
+                    "via": "offline",
+                    "ok": true,
+                    "expected": [
+                      "0xf748a9220b9b0d79d6eed2d927fcdfe80055b19c"
+                    ],
+                    "actual": "0xf748a9220b9b0d79d6eed2d927fcdfe80055b19c"
+                  },
+                  {
+                    "check": "eip191 signature recovers to wallet",
+                    "via": "offline",
+                    "ok": true,
+                    "expected": "0xf748a9220b9b0d79d6eed2d927fcdfe80055b19c",
+                    "actual": "0xf748a9220B9B0D79D6eeD2D927fCdFE80055b19c"
+                  },
+                  {
+                    "check": "verification's authority is listed for the token",
+                    "via": "offline",
+                    "ok": true,
+                    "expected": [
+                      {
+                        "type": "controlled_by",
+                        "address": "0xf748a9220b9b0d79d6eed2d927fcdfe80055b19c"
+                      }
+                    ],
+                    "actual": {
+                      "type": "controlled_by",
+                      "address": "0xf748a9220b9b0d79d6eed2d927fcdfe80055b19c"
+                    }
+                  }
+                ]
+              },
+              "at": {}
+            },
+            {
+              "kind": "authority",
+              "subject": "0xf748a9220b9b0d79d6eed2d927fcdfe80055b19c",
+              "method": "controlled_by",
+              "at": {}
+            }
+          ],
+          "at": {}
+        }
+      ],
+      "at": {}
+    },
+    "tamperedMessage": {
+      "status": "invalid",
+      "reason": "eip191 signature recovers to wallet failed",
+      "steps": [
+        {
+          "check": "wallet is the authority or one of its signers",
+          "via": "offline",
+          "ok": true,
+          "expected": [
+            "0xf748a9220b9b0d79d6eed2d927fcdfe80055b19c"
+          ],
+          "actual": "0xf748a9220b9b0d79d6eed2d927fcdfe80055b19c"
+        },
+        {
+          "check": "eip191 signature recovers to wallet",
+          "via": "offline",
+          "ok": false,
+          "expected": "0xf748a9220b9b0d79d6eed2d927fcdfe80055b19c",
+          "actual": "0x0BF280187914DFD1eF78C0afc6C29d5857eFcbcc"
+        }
+      ]
+    }
+  }
+}

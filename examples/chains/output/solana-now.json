@@ -1,0 +1,337 @@
+{
+  "wallet": "AKnL4NNf3DGWZJS6cPknBuEGnVsV4A4m5tgebLHaRSZ9",
+  "mints": {
+    "kept": "9hSR6S7WPtxmTojgo6GG3k4yDPecgJY292j7xrsUGWBu",
+    "handedOver": "GyGKxMyg1p9SsHfm15MkNUu1u9TN2JtTspcdmrtGUdse"
+  },
+  "report": {
+    "claimed": true,
+    "evidence": "confirmed",
+    "verified": true,
+    "matchesClaim": true,
+    "tokens": [
+      {
+        "caip19": "solana:5eykt4UsFv8P8NJdTREpY1vzqKqZKvdp/token:9hSR6S7WPtxmTojgo6GG3k4yDPecgJY292j7xrsUGWBu",
+        "claimed": true,
+        "evidence": "confirmed",
+        "verified": true,
+        "matchesClaim": true,
+        "checks": [
+          {
+            "kind": "verification",
+            "subject": "AKnL4NNf3DGWZJS6cPknBuEGnVsV4A4m5tgebLHaRSZ9",
+            "method": "signature:solana_raw",
+            "proof": {
+              "status": "valid",
+              "steps": [
+                {
+                  "check": "wallet is the authority or one of its signers",
+                  "via": "offline",
+                  "ok": true,
+                  "expected": [
+                    "AKnL4NNf3DGWZJS6cPknBuEGnVsV4A4m5tgebLHaRSZ9"
+                  ],
+                  "actual": "AKnL4NNf3DGWZJS6cPknBuEGnVsV4A4m5tgebLHaRSZ9"
+                },
+                {
+                  "check": "solana_raw signature verifies for wallet",
+                  "via": "offline",
+                  "ok": true
+                },
+                {
+                  "check": "verification's authority is listed for the token",
+                  "via": "offline",
+                  "ok": true,
+                  "expected": [
+                    {
+                      "type": "mint_authority",
+                      "address": "AKnL4NNf3DGWZJS6cPknBuEGnVsV4A4m5tgebLHaRSZ9"
+                    }
+                  ],
+                  "actual": {
+                    "type": "mint_authority",
+                    "address": "AKnL4NNf3DGWZJS6cPknBuEGnVsV4A4m5tgebLHaRSZ9"
+                  }
+                }
+              ]
+            },
+            "at": {
+              "verified": {
+                "status": "unverifiable",
+                "reason": "Solana RPC cannot read historical account state",
+                "steps": []
+              },
+              "now": {
+                "status": "valid",
+                "steps": [
+                  {
+                    "check": "solana_raw signature verifies for wallet",
+                    "via": "offline",
+                    "ok": true
+                  },
+                  {
+                    "check": "mint account exists",
+                    "via": "rpc",
+                    "ok": true
+                  },
+                  {
+                    "check": "mint is owned by a token program",
+                    "via": "rpc",
+                    "ok": true,
+                    "expected": [
+                      "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+                      "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb"
+                    ],
+                    "actual": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb"
+                  },
+                  {
+                    "check": "account is a token mint",
+                    "via": "rpc",
+                    "ok": true
+                  },
+                  {
+                    "check": "mint authority",
+                    "via": "rpc",
+                    "ok": true,
+                    "expected": "AKnL4NNf3DGWZJS6cPknBuEGnVsV4A4m5tgebLHaRSZ9",
+                    "actual": "AKnL4NNf3DGWZJS6cPknBuEGnVsV4A4m5tgebLHaRSZ9"
+                  }
+                ],
+                "position": {
+                  "slot": "412345678"
+                }
+              }
+            }
+          },
+          {
+            "kind": "authority",
+            "subject": "AKnL4NNf3DGWZJS6cPknBuEGnVsV4A4m5tgebLHaRSZ9",
+            "method": "mint_authority",
+            "at": {
+              "verified": {
+                "status": "unverifiable",
+                "reason": "Solana RPC cannot read historical account state",
+                "steps": []
+              },
+              "now": {
+                "status": "valid",
+                "steps": [
+                  {
+                    "check": "mint account exists",
+                    "via": "rpc",
+                    "ok": true
+                  },
+                  {
+                    "check": "mint is owned by a token program",
+                    "via": "rpc",
+                    "ok": true,
+                    "expected": [
+                      "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+                      "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb"
+                    ],
+                    "actual": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb"
+                  },
+                  {
+                    "check": "account is a token mint",
+                    "via": "rpc",
+                    "ok": true
+                  },
+                  {
+                    "check": "mint authority",
+                    "via": "rpc",
+                    "ok": true,
+                    "expected": "AKnL4NNf3DGWZJS6cPknBuEGnVsV4A4m5tgebLHaRSZ9",
+                    "actual": "AKnL4NNf3DGWZJS6cPknBuEGnVsV4A4m5tgebLHaRSZ9"
+                  }
+                ],
+                "position": {
+                  "slot": "412345678"
+                }
+              }
+            }
+          }
+        ],
+        "at": {
+          "verified": {
+            "evidence": "inconclusive",
+            "verified": false,
+            "matchesClaim": null
+          },
+          "now": {
+            "evidence": "confirmed",
+            "verified": true,
+            "matchesClaim": true
+          }
+        }
+      },
+      {
+        "caip19": "solana:5eykt4UsFv8P8NJdTREpY1vzqKqZKvdp/token:GyGKxMyg1p9SsHfm15MkNUu1u9TN2JtTspcdmrtGUdse",
+        "claimed": true,
+        "evidence": "confirmed",
+        "verified": true,
+        "matchesClaim": true,
+        "checks": [
+          {
+            "kind": "verification",
+            "subject": "AKnL4NNf3DGWZJS6cPknBuEGnVsV4A4m5tgebLHaRSZ9",
+            "method": "signature:solana_raw",
+            "proof": {
+              "status": "valid",
+              "steps": [
+                {
+                  "check": "wallet is the authority or one of its signers",
+                  "via": "offline",
+                  "ok": true,
+                  "expected": [
+                    "AKnL4NNf3DGWZJS6cPknBuEGnVsV4A4m5tgebLHaRSZ9"
+                  ],
+                  "actual": "AKnL4NNf3DGWZJS6cPknBuEGnVsV4A4m5tgebLHaRSZ9"
+                },
+                {
+                  "check": "solana_raw signature verifies for wallet",
+                  "via": "offline",
+                  "ok": true
+                },
+                {
+                  "check": "verification's authority is listed for the token",
+                  "via": "offline",
+                  "ok": true,
+                  "expected": [
+                    {
+                      "type": "mint_authority",
+                      "address": "AKnL4NNf3DGWZJS6cPknBuEGnVsV4A4m5tgebLHaRSZ9"
+                    }
+                  ],
+                  "actual": {
+                    "type": "mint_authority",
+                    "address": "AKnL4NNf3DGWZJS6cPknBuEGnVsV4A4m5tgebLHaRSZ9"
+                  }
+                }
+              ]
+            },
+            "at": {
+              "verified": {
+                "status": "unverifiable",
+                "reason": "Solana RPC cannot read historical account state",
+                "steps": []
+              },
+              "now": {
+                "status": "invalid",
+                "reason": "mint authority failed",
+                "steps": [
+                  {
+                    "check": "solana_raw signature verifies for wallet",
+                    "via": "offline",
+                    "ok": true
+                  },
+                  {
+                    "check": "mint account exists",
+                    "via": "rpc",
+                    "ok": true
+                  },
+                  {
+                    "check": "mint is owned by a token program",
+                    "via": "rpc",
+                    "ok": true,
+                    "expected": [
+                      "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+                      "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb"
+                    ],
+                    "actual": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
+                  },
+                  {
+                    "check": "account is a token mint",
+                    "via": "rpc",
+                    "ok": true
+                  },
+                  {
+                    "check": "mint authority",
+                    "via": "rpc",
+                    "ok": false,
+                    "expected": "AKnL4NNf3DGWZJS6cPknBuEGnVsV4A4m5tgebLHaRSZ9",
+                    "actual": "EdmxWPmx2WH6WgFfTdu9xfkYf3k1g5wD1zccTVySEEh1"
+                  }
+                ],
+                "position": {
+                  "slot": "412345679"
+                }
+              }
+            }
+          },
+          {
+            "kind": "authority",
+            "subject": "AKnL4NNf3DGWZJS6cPknBuEGnVsV4A4m5tgebLHaRSZ9",
+            "method": "mint_authority",
+            "at": {
+              "verified": {
+                "status": "unverifiable",
+                "reason": "Solana RPC cannot read historical account state",
+                "steps": []
+              },
+              "now": {
+                "status": "invalid",
+                "reason": "mint authority failed",
+                "steps": [
+                  {
+                    "check": "mint account exists",
+                    "via": "rpc",
+                    "ok": true
+                  },
+                  {
+                    "check": "mint is owned by a token program",
+                    "via": "rpc",
+                    "ok": true,
+                    "expected": [
+                      "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+                      "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb"
+                    ],
+                    "actual": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
+                  },
+                  {
+                    "check": "account is a token mint",
+                    "via": "rpc",
+                    "ok": true
+                  },
+                  {
+                    "check": "mint authority",
+                    "via": "rpc",
+                    "ok": false,
+                    "expected": "AKnL4NNf3DGWZJS6cPknBuEGnVsV4A4m5tgebLHaRSZ9",
+                    "actual": "EdmxWPmx2WH6WgFfTdu9xfkYf3k1g5wD1zccTVySEEh1"
+                  }
+                ],
+                "position": {
+                  "slot": "412345679"
+                }
+              }
+            }
+          }
+        ],
+        "at": {
+          "verified": {
+            "evidence": "inconclusive",
+            "verified": false,
+            "matchesClaim": null
+          },
+          "now": {
+            "evidence": "contradicted",
+            "verified": false,
+            "matchesClaim": false
+          }
+        }
+      }
+    ],
+    "at": {
+      "verified": {
+        "evidence": "inconclusive",
+        "verified": false,
+        "matchesClaim": null
+      },
+      "now": {
+        "evidence": "confirmed",
+        "verified": true,
+        "matchesClaim": true
+      }
+    }
+  }
+}

@@ -1,0 +1,189 @@
+{
+  "wallet": "AKnL4NNf3DGWZJS6cPknBuEGnVsV4A4m5tgebLHaRSZ9",
+  "mint": "9hSR6S7WPtxmTojgo6GG3k4yDPecgJY292j7xrsUGWBu",
+  "messages": {
+    "wallet": "Please, sign this message to verify your Bluprynt KYI credentials\n\nPurpose: Verify wallet ownership\nIssued to: example\nAddress: AKnL4NNf3DGWZJS6cPknBuEGnVsV4A4m5tgebLHaRSZ9::1790000000000::example-nonce",
+    "cli": "Bluprynt wallet verification || Issued to: example || Address: AKnL4NNf3DGWZJS6cPknBuEGnVsV4A4m5tgebLHaRSZ9::1790000000000::example-nonce"
+  },
+  "legacyOffchainHeader": "ff736f6c616e61206f6666636861696e00008900",
+  "signatures": {
+    "raw": "3J7c4noSLt9FQuFz4cARW2fWYvJKmxd91xjgM3rfN6F8SHZ28CMWumDqzYuHGvByf4UJpgHixakxrsY6pQL3pmn8",
+    "offchain": "4DGEkBZHtRdLRU7qU7ZA5qK6pSKAJgSqELbyEYjL3hm7S5VtsutXHoeSysWmKArkGZd3QwPK7TWtTD1GohdXQoCY"
+  },
+  "independent": {
+    "rawSignature": {
+      "overRawMessage": true,
+      "overOffchainMessage": false
+    },
+    "offchainSignature": {
+      "overRawMessage": false,
+      "overOffchainMessage": true
+    }
+  },
+  "sdk": {
+    "report": {
+      "claimed": true,
+      "evidence": "confirmed",
+      "verified": true,
+      "matchesClaim": true,
+      "tokens": [
+        {
+          "caip19": "solana:5eykt4UsFv8P8NJdTREpY1vzqKqZKvdp/token:9hSR6S7WPtxmTojgo6GG3k4yDPecgJY292j7xrsUGWBu",
+          "claimed": true,
+          "evidence": "confirmed",
+          "verified": true,
+          "matchesClaim": true,
+          "checks": [
+            {
+              "kind": "verification",
+              "subject": "AKnL4NNf3DGWZJS6cPknBuEGnVsV4A4m5tgebLHaRSZ9",
+              "method": "signature:solana_raw",
+              "proof": {
+                "status": "valid",
+                "steps": [
+                  {
+                    "check": "wallet is the authority or one of its signers",
+                    "via": "offline",
+                    "ok": true,
+                    "expected": [
+                      "AKnL4NNf3DGWZJS6cPknBuEGnVsV4A4m5tgebLHaRSZ9"
+                    ],
+                    "actual": "AKnL4NNf3DGWZJS6cPknBuEGnVsV4A4m5tgebLHaRSZ9"
+                  },
+                  {
+                    "check": "solana_raw signature verifies for wallet",
+                    "via": "offline",
+                    "ok": true
+                  },
+                  {
+                    "check": "verification's authority is listed for the token",
+                    "via": "offline",
+                    "ok": true,
+                    "expected": [
+                      {
+                        "type": "mint_authority",
+                        "address": "AKnL4NNf3DGWZJS6cPknBuEGnVsV4A4m5tgebLHaRSZ9"
+                      }
+                    ],
+                    "actual": {
+                      "type": "mint_authority",
+                      "address": "AKnL4NNf3DGWZJS6cPknBuEGnVsV4A4m5tgebLHaRSZ9"
+                    }
+                  }
+                ]
+              },
+              "at": {}
+            },
+            {
+              "kind": "verification",
+              "subject": "AKnL4NNf3DGWZJS6cPknBuEGnVsV4A4m5tgebLHaRSZ9",
+              "method": "signature:solana_offchain_v0",
+              "proof": {
+                "status": "valid",
+                "steps": [
+                  {
+                    "check": "wallet is the authority or one of its signers",
+                    "via": "offline",
+                    "ok": true,
+                    "expected": [
+                      "AKnL4NNf3DGWZJS6cPknBuEGnVsV4A4m5tgebLHaRSZ9"
+                    ],
+                    "actual": "AKnL4NNf3DGWZJS6cPknBuEGnVsV4A4m5tgebLHaRSZ9"
+                  },
+                  {
+                    "check": "solana_offchain_v0 signature verifies for wallet",
+                    "via": "offline",
+                    "ok": true
+                  },
+                  {
+                    "check": "verification's authority is listed for the token",
+                    "via": "offline",
+                    "ok": true,
+                    "expected": [
+                      {
+                        "type": "mint_authority",
+                        "address": "AKnL4NNf3DGWZJS6cPknBuEGnVsV4A4m5tgebLHaRSZ9"
+                      }
+                    ],
+                    "actual": {
+                      "type": "mint_authority",
+                      "address": "AKnL4NNf3DGWZJS6cPknBuEGnVsV4A4m5tgebLHaRSZ9"
+                    }
+                  }
+                ]
+              },
+              "at": {}
+            },
+            {
+              "kind": "authority",
+              "subject": "AKnL4NNf3DGWZJS6cPknBuEGnVsV4A4m5tgebLHaRSZ9",
+              "method": "mint_authority",
+              "at": {}
+            }
+          ],
+          "at": {}
+        }
+      ],
+      "at": {}
+    },
+    "rawSignatureRecordedAsOffchain": {
+      "status": "invalid",
+      "reason": "solana_offchain_v0 signature verifies for wallet failed",
+      "steps": [
+        {
+          "check": "wallet is the authority or one of its signers",
+          "via": "offline",
+          "ok": true,
+          "expected": [
+            "AKnL4NNf3DGWZJS6cPknBuEGnVsV4A4m5tgebLHaRSZ9"
+          ],
+          "actual": "AKnL4NNf3DGWZJS6cPknBuEGnVsV4A4m5tgebLHaRSZ9"
+        },
+        {
+          "check": "solana_offchain_v0 signature verifies for wallet",
+          "via": "offline",
+          "ok": false
+        }
+      ]
+    },
+    "offchainSignatureRecordedAsRaw": {
+      "status": "invalid",
+      "reason": "solana_raw signature verifies for wallet failed",
+      "steps": [
+        {
+          "check": "wallet is the authority or one of its signers",
+          "via": "offline",
+          "ok": true,
+          "expected": [
+            "AKnL4NNf3DGWZJS6cPknBuEGnVsV4A4m5tgebLHaRSZ9"
+          ],
+          "actual": "AKnL4NNf3DGWZJS6cPknBuEGnVsV4A4m5tgebLHaRSZ9"
+        },
+        {
+          "check": "solana_raw signature verifies for wallet",
+          "via": "offline",
+          "ok": false
+        }
+      ]
+    },
+    "offchainSignatureWithoutScheme": {
+      "status": "valid",
+      "steps": [
+        {
+          "check": "wallet is the authority or one of its signers",
+          "via": "offline",
+          "ok": true,
+          "expected": [
+            "AKnL4NNf3DGWZJS6cPknBuEGnVsV4A4m5tgebLHaRSZ9"
+          ],
+          "actual": "AKnL4NNf3DGWZJS6cPknBuEGnVsV4A4m5tgebLHaRSZ9"
+        },
+        {
+          "check": "signature verifies for wallet (scheme not recorded, matched solana_offchain_v0)",
+          "via": "offline",
+          "ok": true
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,63 @@
+{
+  "synthetic": "Synthetic Solana RPC responses for two made-up mints: a Token-2022 mint whose mint authority is still the test wallet, and an SPL mint whose mint authority was handed to another test key. Not a real cluster.",
+  "records": [
+    {
+      "request": {
+        "method": "getAccountInfo",
+        "params": [
+          "9hSR6S7WPtxmTojgo6GG3k4yDPecgJY292j7xrsUGWBu",
+          {
+            "encoding": "base64",
+            "commitment": "confirmed"
+          }
+        ]
+      },
+      "response": {
+        "context": {
+          "apiVersion": "3.0.6",
+          "slot": 412345678
+        },
+        "value": {
+          "data": [
+            "AQAAAIqI4910CfGV/VLbLTy6XXLKZwm/HZQSG/N0iAG0D29cABCl1OgAAAAGAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+            "base64"
+          ],
+          "executable": false,
+          "lamports": 1461600,
+          "owner": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb",
+          "rentEpoch": 0,
+          "space": 82
+        }
+      }
+    },
+    {
+      "request": {
+        "method": "getAccountInfo",
+        "params": [
+          "GyGKxMyg1p9SsHfm15MkNUu1u9TN2JtTspcdmrtGUdse",
+          {
+            "encoding": "base64",
+            "commitment": "confirmed"
+          }
+        ]
+      },
+      "response": {
+        "context": {
+          "apiVersion": "3.0.6",
+          "slot": 412345679
+        },
+        "value": {
+          "data": [
+            "AQAAAMqTrBcFGHBx1nuDx/8O/oEI6OxFMFdddyaHkzPb2r58AEQpNToAAAAGAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+            "base64"
+          ],
+          "executable": false,
+          "lamports": 1461600,
+          "owner": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+          "rentEpoch": 0,
+          "space": 82
+        }
+      }
+    }
+  ]
+}

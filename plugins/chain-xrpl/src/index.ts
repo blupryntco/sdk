@@ -2,6 +2,8 @@ import type { ChainId, CheckWalletVerification } from "@bluprynt/sdk-core";
 
 // XRPL chain add-on. Depends only on core.
 
+export * from "./kyi.js";
+
 export const XRPL_NAMESPACE = "xrpl" as const;
 
 // ponytail: no-op stub — returns not-verified. Replace body with real XRPL

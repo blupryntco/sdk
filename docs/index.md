@@ -3,13 +3,16 @@ layout: home
 
 hero:
   name: Bluprynt SDK
-  text: Don't take our word for it. Verify it.
-  tagline: Check any Bluprynt credential against public data — who was allowed to make the claim, and whether Bluprynt really issued it — without trusting our servers.
+  text: Re-check what Bluprynt claims.
+  tagline: Re-check the wallet proofs and token authorities behind Bluprynt's KYI lookups, on EVM, Solana and XRPL.
   image:
     src: /hero.svg
     alt: A verified shield connected to EVM, Solana and XRPL
   actions:
     - theme: brand
+      text: Quickstart
+      link: /quickstart
+    - theme: alt
       text: How verification works
       link: /wallet-verification
     - theme: alt
@@ -18,86 +21,77 @@ hero:
 
 features:
   - icon: 🔑
-    title: Authorization
-    details: Was the issuer allowed to make this claim? Re-check the wallet proofs showing they control the token — signatures, contract wallets, on-chain transfers.
+    title: Wallet proofs
+    details: Re-check the signatures, contract signatures and transfers that show the issuer controls one of the token's authorities.
   - icon: 🏛️
-    title: Provenance
-    details: Did Bluprynt really issue this credential? Confirm it was written to Bluprynt's registries by Bluprynt-controlled wallets.
-  - icon: ⛓️
-    title: Chain-native checks
-    details: EIP-191 and ERC-1271 on EVM, off-chain message signing on Solana, keypair accounts on XRPL. Each chain is verified with its own rules, against your own RPC.
+    title: Token authorities
+    details: Read who controls the token on-chain, such as its owner(), a Safe, a mint or freeze authority or an XRPL issuer, at the moments you ask for.
+  - icon: 🧪
+    title: Reproducible
+    details: Every chain page has tested scripts you can run. One checks proofs with the chain's own library and with the SDK. Another reads chain state at a moment from recorded RPC responses, so it runs offline.
   - icon: 🧩
     title: Install only what you need
-    details: Chain support ships as separate packages. The core has zero runtime dependencies, and tree-shaking drops everything you don't import.
+    details: Chain support ships as separate packages. Only the core package, @bluprynt/sdk-core, has no runtime dependencies. Each chain package uses its ecosystem's library, such as viem, @solana/kit or xrpl.js.
 ---
 
+KYI ("know your issuer") is Bluprynt's check that a token's issuer is a verified organization that controls the token on-chain. Bluprynt's API publishes the result for each token, with the evidence behind it. This SDK lets you re-check that evidence yourself.
+
 ::: warning Pre-alpha
-The SDK is under active development and its APIs will change. Wallet proof re-verification comes first; attestation, authority and credential checks follow.
+The SDK is under active development and its APIs will change. Today it re-checks KYI token lookups on EVM, Solana and XRPL. Attestation and credential checks are not available yet.
 :::
 
 ## Why an SDK?
 
-A Bluprynt credential says something about an asset or an issuer: it passed KYI, it filed a disclosure, it holds a license. Your compliance pipeline shouldn't have to take that on faith. Every credential can be traced back to public, on-chain facts:
+A KYI token lookup from Bluprynt's public API says whether a token passed KYI. Behind that claim is a chain of facts:
 
 <ol class="trust-chain">
-  <li><strong>Credential</strong><span>issued by Bluprynt into an on-chain credential registry</span></li>
-  <li><strong>Identity</strong><span>the subject the credential was issued to</span></li>
-  <li><strong>KYI</strong><span>the process that verified who the issuer is</span></li>
-  <li><strong>Wallets</strong><span>the addresses linked to that identity</span></li>
-  <li><strong>Wallet proofs</strong><span>signatures or transactions showing the issuer controls them</span></li>
+  <li><strong>KYI claim</strong><span>Bluprynt says the token passed KYI (<code>kyi_verified</code>)</span></li>
+  <li><strong>Issuer</strong><span>the organization Bluprynt verified</span></li>
+  <li><strong>Wallets</strong><span>the addresses the issuer proved it controls</span></li>
+  <li><strong>Wallet proofs</strong><span>signatures or transactions showing that control</span></li>
+  <li><strong>Authorities</strong><span>the addresses that control the token on-chain</span></li>
 </ol>
+
+The SDK re-checks the last three links against public data: each wallet proof, that the wallet backs one of the token's authorities, and, at the moments you ask for, that each authority holds on-chain where the SDK can read it. The issuer's identity comes from Bluprynt's verification process. [What a proof shows, and what it doesn't](/trust-model) lists what the SDK re-checks and what takes more effort to verify.
 
 Following that chain by hand is harder than it looks:
 
 | What you'd have to handle | By hand | With the SDK |
 | --- | --- | --- |
-| Signature formats differ per chain (Solana adds an off-chain message preamble) | Re-implement each format | Handled |
-| Smart-contract wallets (Safe, timelocks) have no private key and need an ERC-1271 call over RPC | Detect and call contracts yourself | Handled, using your RPC |
-| Transaction proofs carry the challenge in a memo or a unique gwei amount | Fetch and decode each transaction | Handled |
-| A wallet proven on one EVM chain may or may not count on another | Work out the scoping rules | Reported in the result |
-| Registries are deployed per chain and per identity type | Find and read each one | Resolved for you |
+| Signature formats differ per chain (the Solana CLI adds an off-chain message header, XRPL needs the signer's public key) | Re-implement each format | Handled |
+| Smart-contract wallets (Safe) have no private key and need an ERC-1271 call over RPC | Detect and call contracts yourself | Handled, using your RPC |
+| EVM transfer proofs carry the challenge in a unique amount or in calldata | Fetch and decode each transaction | Handled, using your RPC |
+| Chain state changes over time | Find the block or ledger for each moment | Done for the moments you ask for |
+
+The SDK reports [facts, not verdicts](/trust-model#facts-not-verdicts): what held, and when.
 
 ## One call
 
-::: code-group
+```ts
+import { verifyKyiResponse } from "@bluprynt/sdk-chain-solana";
 
-```ts [Single chain]
-import { checkWalletVerification } from "@bluprynt/sdk-chain-solana";
+const report = await verifyKyiResponse(response);
 
-const result = await checkWalletVerification(verificationMetadata, {
-  rpcUrl: "https://...",
-});
-
-result.isVerified; // true | false
-result.method; // "wallet_extension" | "cli" | "onchain_tx"
+report.evidence; // "confirmed" | "contradicted" | "inconclusive"
+report.verified; // what the re-checked proofs support, offline
+report.matchesClaim; // true | false | null
 ```
 
-```ts [Multi-chain]
-import { checkWalletVerification } from "@bluprynt/sdk";
+With no options, these are the offline summary: they don't read authorities on-chain or apply expiry. To show a badge, ask for a moment and read `report.at.now`. See [Showing a badge](/sdk/badge).
 
-const result = await checkWalletVerification(verificationMetadata, {
-  rpcUrls: {
-    "eip155:1": "https://mainnet-eth.rpc.example.com",
-    "solana:5eykt4UsFv8P8NJdTREpY1vzqKqZKvdp": "https://mainnet-solana.rpc.example.com",
-  },
-});
-
-result.chain.caip2; // the chain the proof was checked on
-```
-
-:::
+To check a response that spans chains in one call, see [One call, several chains](/sdk/report#one-call-several-chains).
 
 ## Pick your packages
 
 | Package | What it's for |
 | --- | --- |
-| `@bluprynt/sdk` | Everything in one import: credential models, schema parsing, API client |
-| `@bluprynt/sdk-chain-evm` | Ethereum and EVM-compatible chains |
-| `@bluprynt/sdk-chain-solana` | Solana |
-| `@bluprynt/sdk-chain-xrpl` | XRP Ledger |
+| `@bluprynt/sdk` | Core types and the multi-chain `verifyKyiResponse`. Add the chain packages you need |
+| [`@bluprynt/sdk-chain-evm`](/chains/evm) | Ethereum and EVM-compatible chains |
+| [`@bluprynt/sdk-chain-solana`](/chains/solana) | Solana |
+| [`@bluprynt/sdk-chain-xrpl`](/chains/xrpl) | XRP Ledger |
 
 ## Using a coding agent?
 
 These docs are published in an agent-friendly form too. Point your agent at [`/llms.txt`](/llms.txt) for a map of the docs, or [`/llms-full.txt`](/llms-full.txt) for everything in one file.
 
-Read [Wallet verification](/wallet-verification) for how each proof is produced and what the SDK checks, and [Verifying KYI claims](/kyi-verification) to re-check a KYI token lookup end to end.
+Start with the [Quickstart](/quickstart). Read [Wallet verification](/wallet-verification) for how each proof is produced, and [Moments](/sdk/moments) for what the SDK checks and when.

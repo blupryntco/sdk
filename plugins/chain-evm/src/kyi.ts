@@ -1,22 +1,25 @@
-import type {
-  ChainId,
-  CheckStep,
-  ClaimCheck,
-  KyiAmountTransferMethod,
-  KyiAuthority,
-  KyiContractSignatureMethod,
-  KyiEvidence,
-  KyiMemoTransferMethod,
-  KyiReport,
-  KyiSignatureMethod,
-  KyiTokenLookup,
-  KyiTokenLookupItem,
-  KyiTokenReport,
-  KyiVerification,
-  KyiVerificationMethod,
+import {
+  type ChainId,
+  type CheckResult,
+  CheckTrail,
+  checkWalletBacksAuthority,
+  type KyiAmountTransferMethod,
+  type KyiAuthority,
+  type KyiChainChecker,
+  type KyiCheckOptions,
+  type KyiContractSignatureMethod,
+  type KyiInstant,
+  type KyiMemoTransferMethod,
+  type KyiSignatureMethod,
+  type KyiToken,
+  type KyiVerification,
+  type KyiVerificationMethod,
+  kyiChainFunctions,
+  kyiRpcUrl,
 } from "@bluprynt/sdk-core";
 import {
   type Address,
+  BaseError,
   ContractFunctionExecutionError,
   ContractFunctionRevertedError,
   ContractFunctionZeroDataError,
@@ -38,11 +41,6 @@ import {
   TransactionReceiptNotFoundError,
 } from "viem";
 
-export interface KyiCheckOptions {
-  /** RPC endpoints keyed by CAIP-2, e.g. { "eip155:1": "https://…" }. */
-  rpcUrls?: Record<ChainId, string>;
-}
-
 const ownableAbi = parseAbi(["function owner() view returns (address)"]);
 const safeAbi = parseAbi([
   "function getOwners() view returns (address[])",
@@ -52,177 +50,91 @@ const safeAbi = parseAbi([
 const same = (a: string, b: string) =>
   isAddressEqual(a as Address, b as Address);
 
-class Trail {
-  readonly steps: CheckStep[] = [];
-  via: CheckStep["via"] = "offline";
-  skipped?: string;
+export const evmKyi: KyiChainChecker = {
+  namespace: "eip155",
+  sameAddress: same,
+  checkProof,
+  checkVerificationAt,
+  checkAuthorityAt,
+  session: (options, run) => {
+    const scoped = { ...options };
+    sessions.set(scoped, new Reads());
+    return run(scoped);
+  },
+};
 
-  check(check: string, ok: boolean, expected?: unknown, actual?: unknown) {
-    this.steps.push({
-      check,
-      via: this.via,
-      ok,
-      expected: plain(expected),
-      actual: plain(actual),
-    });
-    return ok;
-  }
+export const {
+  verifyKyiResponse,
+  verifyKyiToken,
+  checkKyiVerification,
+  checkKyiAuthority,
+} = kyiChainFunctions(evmKyi);
 
-  address(check: string, expected: string, actual: string | null) {
-    return this.check(
-      check,
-      actual !== null && same(expected, actual),
-      expected,
-      actual,
-    );
-  }
-
-  skip(reason: string) {
-    this.skipped = reason;
-  }
-
-  result(
-    kind: ClaimCheck["kind"],
-    subject: string,
-    method: string,
-  ): ClaimCheck {
-    const failed = this.steps.find((s) => !s.ok);
-    const status = failed
-      ? "invalid"
-      : this.skipped || this.steps.length === 0
-        ? "unverifiable"
-        : "valid";
-    const reason = failed ? `${failed.check} failed` : this.skipped;
-    return { kind, subject, method, status, reason, steps: this.steps };
-  }
+const ADMIN_MANUAL = "admin_manual is not part of the public trust model";
+interface MinedBlock {
+  number: bigint;
+  timestamp: bigint;
 }
 
-const plain = (v: unknown) => (typeof v === "bigint" ? v.toString() : v);
+const POSTDATES = "record postdates this moment";
 
-/** Feed a `GET /kyi/v1/tokens` response; independently re-check every claim in it. */
-export async function verifyKyiResponse(
-  response: KyiTokenLookup,
-  options: KyiCheckOptions = {},
-): Promise<KyiReport> {
-  const tokens = await Promise.all(
-    response.data.map((item) => verifyKyiToken(item, options)),
-  );
-  const verified = tokens.some((t) => t.verified);
-  return {
-    claimed: response.kyi_verified,
-    verified,
-    matchesClaim: matchesClaim(
-      response.kyi_verified,
-      verified,
-      tokens.some((t) => t.matchesClaim === null),
-    ),
-    tokens,
-  };
-}
-
-/** null when the record claims verification but the evidence can neither confirm nor refute it. */
-function matchesClaim(
-  claimed: boolean,
-  verified: boolean,
-  undecided: boolean,
-): boolean | null {
-  if (claimed === verified) return true;
-  return claimed && undecided ? null : false;
-}
-
-export async function verifyKyiToken(
-  item: KyiTokenLookupItem,
-  options: KyiCheckOptions = {},
-): Promise<KyiTokenReport> {
-  const checks = await Promise.all([
-    ...item.verifications.map((v) => checkKyiVerification(v, options)),
-    ...item.authorities.map((a) =>
-      checkKyiAuthority(item.token.caip2, item.token.address, a, options),
-    ),
-  ]);
-  const evidence: KyiEvidence = checks.some((c) => c.status === "invalid")
-    ? "contradicted"
-    : checks.some((c) => c.kind === "verification" && c.status === "valid")
-      ? "confirmed"
-      : "inconclusive";
-  const verified = evidence === "confirmed";
-  return {
-    caip19: item.token.caip19,
-    claimed: item.kyi_verified,
-    verified,
-    matchesClaim: matchesClaim(
-      item.kyi_verified,
-      verified,
-      evidence === "inconclusive",
-    ),
-    evidence,
-    checks,
-  };
-}
-
-/** Re-check that a verification's proof shows control of `wallet_address`, and that the wallet backs the authority. */
-export async function checkKyiVerification(
+async function checkProof(
   verification: KyiVerification,
-  options: KyiCheckOptions = {},
-): Promise<ClaimCheck> {
-  const {
-    wallet_address: wallet,
-    authority,
-    method,
-    expires_at,
-  } = verification;
-  const t = new Trail();
+  _token: KyiToken,
+): Promise<CheckResult> {
+  const { wallet_address: wallet, method } = verification;
+  const t = new CheckTrail(same);
 
-  t.check(
-    "wallet is the authority or one of its signers",
-    same(wallet, authority.address) ||
-      authority.signers.some((s) => same(wallet, s)),
-    [authority.address, ...authority.signers],
-    wallet,
-  );
-  await onchain(t, () => checkMethod(t, wallet, method, options));
-  if (expires_at && Date.parse(expires_at) <= Date.now()) {
-    t.skip(`verification expired at ${expires_at}`);
-  }
-
-  return t.result("verification", wallet, methodLabel(method));
-}
-
-function methodLabel(method: KyiVerificationMethod): string {
+  checkWalletBacksAuthority(t, verification);
   switch (method.type) {
     case "signature":
-      return `signature:${method.scheme ?? "unrecorded"}`;
-    case "contract_signature":
-      return `contract_signature:${method.scheme}/${method.inner_scheme}`;
-    case "transfer":
-      return `transfer:${method.kind}`;
+      await checkSignature(t, wallet, method);
+      break;
     case "admin_manual":
-      return "admin_manual";
+      t.skip(ADMIN_MANUAL);
+      break;
+    default:
+      t.skip("online checks not requested");
   }
+  return t.result();
 }
 
-async function checkMethod(
-  t: Trail,
+async function checkVerificationAt(
+  { wallet_address: wallet, method }: KyiVerification,
+  _token: KyiToken,
+  at: KyiInstant,
+  options: KyiCheckOptions,
+): Promise<CheckResult> {
+  const t = new CheckTrail(same);
+  await onchain(t, at, () => checkMethodAt(t, wallet, method, at, options));
+  return t.result();
+}
+
+async function checkMethodAt(
+  t: CheckTrail,
   wallet: string,
   method: KyiVerificationMethod,
+  at: KyiInstant,
   options: KyiCheckOptions,
 ): Promise<void> {
   switch (method.type) {
     case "signature":
       return checkSignature(t, wallet, method);
+    case "admin_manual":
+      return t.skip(ADMIN_MANUAL);
+  }
+  switch (method.type) {
     case "contract_signature":
-      return checkContractSignature(t, wallet, method, options);
+      return checkContractSignature(t, wallet, method, at, options);
     case "transfer":
       return method.kind === "amount"
-        ? checkAmountTransfer(t, wallet, method, options)
-        : checkMemoTransfer(t, wallet, method, options);
-    case "admin_manual":
-      return t.skip("admin_manual is not part of the public trust model");
+        ? checkAmountTransfer(t, wallet, method, at, options)
+        : checkMemoTransfer(t, wallet, method, at, options);
   }
 }
 
 async function checkSignature(
-  t: Trail,
+  t: CheckTrail,
   wallet: string,
   { scheme, message, signature }: KyiSignatureMethod,
 ): Promise<void> {
@@ -249,9 +161,10 @@ async function checkSignature(
 }
 
 async function checkContractSignature(
-  t: Trail,
+  t: CheckTrail,
   wallet: string,
   method: KyiContractSignatureMethod,
+  at: KyiInstant,
   options: KyiCheckOptions,
 ): Promise<void> {
   const hash =
@@ -259,14 +172,25 @@ async function checkContractSignature(
       ? hashMessage(method.message)
       : hashTypedData(JSON.parse(method.message));
   t.via = "rpc";
-  const ok = await client(method.caip2, options).verifyHash({
+  const rpc = client(method.caip2, options);
+  const recorded = BigInt(method.block_number);
+  const block = await pin(
+    t,
+    method.caip2,
+    at,
+    options,
+    at.label === "verified" ? recorded : undefined,
+  );
+  if (!block) return;
+  if (block.number < recorded) return t.skip(POSTDATES);
+  const ok = await rpc.verifyHash({
     address: wallet as Address,
     hash,
     signature: method.signature as Hex,
-    blockNumber: BigInt(method.block_number),
+    blockNumber: block.number,
   });
   t.check(
-    `eip1271 isValidSignature on ${method.caip2} at block ${method.block_number}`,
+    `eip1271 isValidSignature on ${method.caip2} at block ${block.number}`,
     ok,
     true,
     ok,
@@ -274,9 +198,10 @@ async function checkContractSignature(
 }
 
 async function checkAmountTransfer(
-  t: Trail,
+  t: CheckTrail,
   wallet: string,
   method: KyiAmountTransferMethod,
+  at: KyiInstant,
   options: KyiCheckOptions,
 ): Promise<void> {
   const { caip2, transaction_hash, sender, recipient, asset, amount } = method;
@@ -285,7 +210,9 @@ async function checkAmountTransfer(
   }
   t.address("claimed sender is the wallet", wallet, sender);
 
-  const { tx, receipt } = await fetchTx(t, caip2, transaction_hash, options);
+  const found = await fetchTx(t, caip2, transaction_hash, at, options);
+  if (!found) return;
+  const { tx, receipt } = found;
   t.check(
     "transaction succeeded",
     receipt.status === "success",
@@ -334,16 +261,19 @@ async function checkAmountTransfer(
 }
 
 async function checkMemoTransfer(
-  t: Trail,
+  t: CheckTrail,
   wallet: string,
   method: KyiMemoTransferMethod,
+  at: KyiInstant,
   options: KyiCheckOptions,
 ): Promise<void> {
   const { caip2, transaction_hash, sender, recipient, memo } = method;
   if (!caip2) return t.skip("proof material missing");
   t.address("claimed sender is the wallet", wallet, sender);
 
-  const { tx, receipt } = await fetchTx(t, caip2, transaction_hash, options);
+  const found = await fetchTx(t, caip2, transaction_hash, at, options);
+  if (!found) return;
+  const { tx, receipt } = found;
   t.check(
     "transaction succeeded",
     receipt.status === "success",
@@ -361,37 +291,51 @@ async function checkMemoTransfer(
   );
 }
 
-/** Re-check on-chain that an authority still holds what the record claims. */
-export async function checkKyiAuthority(
-  caip2: ChainId,
-  token: string,
+async function checkAuthorityAt(
   authority: KyiAuthority,
-  options: KyiCheckOptions = {},
-): Promise<ClaimCheck> {
-  const t = new Trail();
-  if (!caip2.startsWith("eip155:")) {
-    t.skip(`${caip2} is not an EVM chain`);
+  token: KyiToken,
+  at: KyiInstant,
+  options: KyiCheckOptions,
+): Promise<CheckResult> {
+  const t = new CheckTrail(same);
+  if (authority.type !== "owner" && authority.account_type !== "multisig") {
+    t.skip(`no generic EVM check for ${authority.type}`);
   } else {
-    await onchain(t, () => checkAuthority(t, caip2, token, authority, options));
+    await onchain(t, at, () =>
+      checkAuthorityOnchain(t, token, authority, at, options),
+    );
   }
-  return t.result("authority", authority.address, authority.type);
+  return t.result();
 }
 
-async function checkAuthority(
-  t: Trail,
-  caip2: ChainId,
-  token: string,
+async function checkAuthorityOnchain(
+  t: CheckTrail,
+  token: KyiToken,
   authority: KyiAuthority,
+  at: KyiInstant,
   options: KyiCheckOptions,
 ): Promise<void> {
-  const rpc = client(caip2, options);
+  const rpc = client(token.caip2, options);
   t.via = "rpc";
+  const block = await pin(t, token.caip2, at, options);
+  if (!block) return;
+  const blockNumber = block.number;
 
   if (authority.account_type === "multisig") {
     const address = authority.address as Address;
     const [owners, threshold] = await Promise.all([
-      rpc.readContract({ address, abi: safeAbi, functionName: "getOwners" }),
-      rpc.readContract({ address, abi: safeAbi, functionName: "getThreshold" }),
+      rpc.readContract({
+        address,
+        abi: safeAbi,
+        functionName: "getOwners",
+        blockNumber,
+      }),
+      rpc.readContract({
+        address,
+        abi: safeAbi,
+        functionName: "getThreshold",
+        blockNumber,
+      }),
     ]);
     t.check(
       "Safe owners match claimed signers",
@@ -412,42 +356,165 @@ async function checkAuthority(
 
   if (authority.type === "owner") {
     const owner = await rpc.readContract({
-      address: token as Address,
+      address: token.address as Address,
       abi: ownableAbi,
       functionName: "owner",
+      blockNumber,
     });
     t.address("token owner()", authority.address, owner);
-  } else if (authority.account_type !== "multisig") {
-    t.skip(`no generic EVM check for ${authority.type}`);
   }
 }
 
 function client(caip2: ChainId, options: KyiCheckOptions): PublicClient {
-  const url = options.rpcUrls?.[caip2];
-  if (!url) throw new Error(`RPC not configured for ${caip2}`);
-  return createPublicClient({ transport: http(url) });
+  return reads(options).client(caip2, options);
 }
 
 async function fetchTx(
-  t: Trail,
+  t: CheckTrail,
   caip2: ChainId,
   hash: string,
+  at: KyiInstant,
   options: KyiCheckOptions,
 ) {
   const rpc = client(caip2, options);
   t.via = "rpc";
+  const block = await pin(t, caip2, at, options);
+  if (!block) return null;
   const [tx, receipt] = await Promise.all([
     rpc.getTransaction({ hash: hash as Hex }),
     rpc.getTransactionReceipt({ hash: hash as Hex }),
   ]);
+  if (receipt.blockNumber > block.number) {
+    t.skip(POSTDATES);
+    return null;
+  }
   return { tx, receipt };
 }
 
-/** On-chain absence or a reverting call disproves the claim; transport/config errors still throw. */
-async function onchain(t: Trail, run: () => Promise<void>): Promise<void> {
+async function pin(
+  t: CheckTrail,
+  caip2: ChainId,
+  at: KyiInstant,
+  options: KyiCheckOptions,
+  fixed?: bigint,
+): Promise<MinedBlock | null> {
+  if (fixed !== undefined) t.position = { block: fixed.toString() };
+  const block = await reads(options).blockAt(caip2, options, at, fixed);
+  if (!block) {
+    t.skip("chain has no block at or before this moment");
+    return null;
+  }
+  t.position = {
+    block: block.number.toString(),
+    time: new Date(Number(block.timestamp) * 1000).toISOString(),
+  };
+  return block;
+}
+
+/** Shares clients and block lookups between the concurrent checks of one token; failed lookups stay cached so the whole report fails once. */
+class Reads {
+  private readonly clients = new Map<ChainId, PublicClient>();
+  private readonly lookups = new Map<string, Promise<unknown>>();
+
+  client(caip2: ChainId, options: KyiCheckOptions): PublicClient {
+    let rpc = this.clients.get(caip2);
+    if (!rpc) {
+      rpc = createPublicClient({ transport: http(kyiRpcUrl(caip2, options)) });
+      this.clients.set(caip2, rpc);
+    }
+    return rpc;
+  }
+
+  blockAt(
+    caip2: ChainId,
+    options: KyiCheckOptions,
+    at: KyiInstant,
+    fixed?: bigint,
+  ): Promise<MinedBlock | null> {
+    if (fixed !== undefined) return this.block(caip2, options, fixed);
+    if (at.time === "now") return this.block(caip2, options);
+    const target = BigInt(Math.floor(at.time.getTime() / 1000));
+    return this.once(`${caip2}/at/${target}`, () =>
+      this.search(caip2, options, target),
+    );
+  }
+
+  private block(caip2: ChainId, options: KyiCheckOptions, number?: bigint) {
+    return this.once(`${caip2}/${number ?? "latest"}`, () =>
+      this.client(caip2, options).getBlock(
+        number === undefined ? undefined : { blockNumber: number },
+      ),
+    );
+  }
+
+  private async search(
+    caip2: ChainId,
+    options: KyiCheckOptions,
+    target: bigint,
+  ): Promise<MinedBlock | null> {
+    const latest = await this.block(caip2, options);
+    if (latest.timestamp <= target) return latest;
+    let low = await this.block(caip2, options, 0n);
+    if (low.timestamp > target) return null;
+    let high = latest.number;
+    while (high - low.number > 1n) {
+      const mid = await this.block(
+        caip2,
+        options,
+        low.number + (high - low.number) / 2n,
+      );
+      if (mid.timestamp <= target) low = mid;
+      else high = mid.number;
+    }
+    return low;
+  }
+
+  private once<T>(key: string, load: () => Promise<T>): Promise<T> {
+    let lookup = this.lookups.get(key) as Promise<T> | undefined;
+    if (!lookup) {
+      lookup = load();
+      this.lookups.set(key, lookup);
+    }
+    return lookup;
+  }
+}
+
+const sessions = new WeakMap<KyiCheckOptions, Reads>();
+
+const reads = (options: KyiCheckOptions) =>
+  sessions.get(options) ?? new Reads();
+
+const MISSING_STATE =
+  /missing trie node|header not found|historical state|state is not available/i;
+
+function isMissingHistoricalState(err: unknown): boolean {
+  return (
+    err instanceof BaseError &&
+    err.walk(
+      (e) =>
+        e instanceof Error &&
+        MISSING_STATE.test(`${e.message} ${(e as BaseError).details ?? ""}`),
+    ) !== null
+  );
+}
+
+/** On-chain absence or a reverting call disproves the claim, an RPC without a past block's state leaves it open; transport/config errors still throw. */
+async function onchain(
+  t: CheckTrail,
+  at: KyiInstant,
+  run: () => Promise<void>,
+): Promise<void> {
   try {
     await run();
   } catch (err) {
+    if (
+      at.time !== "now" &&
+      t.position?.block &&
+      isMissingHistoricalState(err)
+    ) {
+      t.skip(`RPC has no state for block ${t.position.block}`);
+      return;
+    }
     if (
       err instanceof TransactionNotFoundError ||
       err instanceof TransactionReceiptNotFoundError ||

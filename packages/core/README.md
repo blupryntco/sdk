@@ -27,6 +27,9 @@ try {
 - `ChainId` — CAIP-2 style chain identifier, e.g. `"eip155:1"`.
 - Wallet-verification types (`CheckWalletVerification` and friends) that the chain add-ons
   implement.
+- KYI verification: the KYI lookup and report types, `verifyKyiResponse` and `verifyKyiToken`,
+  the `KyiChainChecker` interface, and the checker helpers `CheckTrail`,
+  `checkWalletBacksAuthority`, `kyiMethodLabel`, `kyiRpcUrl` and `kyiChainFunctions`.
 
 ESM + CJS, bundled types.
 

@@ -4,6 +4,7 @@
 export type ChainId = string;
 
 export * from "./kyi.js";
+export * from "./kyi-verify.js";
 export * from "./wallet-verification.js";
 
 export interface Credential {
