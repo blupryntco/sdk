@@ -1,0 +1,48 @@
+name: API spec
+
+on:
+  schedule:
+    - cron: "0 6 * * *"
+  workflow_dispatch:
+
+concurrency: api-spec
+
+jobs:
+  regenerate:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm --filter @bluprynt/sdk-client generate
+      - name: Add a changeset if the client changed
+        run: |
+          [ -z "$(git status --porcelain packages/client)" ] && exit 0
+          cat > .changeset/api-spec-update.md <<'EOF'
+          ---
+          "@bluprynt/sdk-client": patch
+          ---
+
+          Regenerate the client from the latest public API spec.
+          EOF
+      # PRs opened with GITHUB_TOKEN don't trigger CI, so the checks run below instead.
+      - uses: peter-evans/create-pull-request@v7
+        with:
+          branch: chore/api-spec
+          commit-message: "chore(client): regenerate from the latest API spec"
+          title: "chore(client): regenerate from the latest API spec"
+          body: |
+            The public API's OpenAPI spec changed. This regenerates `@bluprynt/sdk-client`.
+
+            Check the `openapi.json` diff and adjust the changeset's bump if the change is breaking. The checks for this PR ran in the [API spec workflow run](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}).
+          delete-branch: true
+      - run: pnpm build
+      - run: pnpm typecheck
+      - run: pnpm test

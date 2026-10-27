@@ -62,6 +62,9 @@ pnpm lint
 - **`.github/workflows/release.yml`** — on push to `main`: the Changesets action opens/updates a
   "Version Packages" PR as changesets accumulate, and publishes to npm when that PR merges.
   Requires an `NPM_TOKEN` repo secret; `GITHUB_TOKEN` is provided automatically.
+- **`.github/workflows/api-spec.yml`** — daily: regenerates `@bluprynt/sdk-client` from the
+  public API's OpenAPI spec and opens a PR if it changed. Its build/typecheck/test run in the same
+  job, since PRs opened with `GITHUB_TOKEN` don't trigger CI.
 
 Locally: add a changeset with `pnpm changeset`. Versioning/publishing is otherwise handled by the
 release workflow. See [CONTRIBUTING.md](./CONTRIBUTING.md) for the full changeset + commit workflow.

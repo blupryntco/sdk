@@ -37,7 +37,8 @@ Requires Node >= 22. ESM + CJS, bundled types.
 
 ## Regenerating
 
-`openapi.json` is a snapshot of the live spec. To update it and the generated code:
+`openapi.json` is a snapshot of the live spec. A daily workflow opens a PR when it changes. To
+update it and the generated code by hand:
 
 ```sh
 pnpm --filter @bluprynt/sdk-client generate
