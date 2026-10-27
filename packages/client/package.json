@@ -32,6 +32,7 @@
     "access": "public"
   },
   "scripts": {
+    "generate": "curl -sSf -o openapi.json https://integrations.bluprynt.com/openapi.json && pnpm dlx --package @hey-api/openapi-ts@0.97.3 --package typescript@6.0.3 openapi-ts -i openapi.json -o src/generated -p @hey-api/client-fetch @hey-api/typescript @hey-api/sdk",
     "build": "tsdown src/index.ts --format esm,cjs --dts",
     "typecheck": "tsc --noEmit",
     "test": "vitest run --passWithNoTests"

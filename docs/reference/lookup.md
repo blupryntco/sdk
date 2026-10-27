@@ -3,7 +3,7 @@
 The SDK re-checks a response from `GET /kyi/v1/tokens`. This page lists the fields it reads and what it does with them. The [API docs](https://integrations.bluprynt.com/) describe the full response.
 
 ::: warning Experimental
-The SDK's types for the response follow the public API's current shape. They will change until they are generated from the OpenAPI spec.
+The SDK's types for the response follow the public API's current shape. Each build checks them against the API's OpenAPI spec, but they can still change.
 :::
 
 ## Response
