@@ -6,7 +6,6 @@ export default defineConfig({
   title: "Bluprynt SDK",
   description:
     "Re-check Bluprynt KYI lookups: wallet proofs and token authorities on EVM, Solana and XRPL",
-  base: "/sdk/",
   cleanUrls: true,
   themeConfig: {
     nav: [

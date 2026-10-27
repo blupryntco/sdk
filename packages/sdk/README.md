@@ -56,7 +56,7 @@ What it checks, per token:
 - Each verification's authority is one of the token's listed authorities.
 - Each listed authority matches the on-chain state at each moment, where the chain can be checked.
 
-See the [Quickstart](https://blupryntco.github.io/sdk/quickstart) and [Reading the report](https://blupryntco.github.io/sdk/sdk/report) for details.
+See the [Quickstart](https://sdk.bluprynt.com/quickstart) and [Reading the report](https://sdk.bluprynt.com/sdk/report) for details.
 
 Requires Node >= 22 (uses global `fetch`). ESM + CJS, bundled types.
 

@@ -46,7 +46,7 @@ What it checks:
 - Mint and freeze authorities match the token's mint account (SPL Token and Token-2022).
 - Multisig authorities match the on-chain signers and threshold.
 
-Every verification must also name one of the token's listed authorities. See the [Solana page](https://blupryntco.github.io/sdk/chains/solana) and [Solana checks](https://blupryntco.github.io/sdk/reference/solana) for details.
+Every verification must also name one of the token's listed authorities. See the [Solana page](https://sdk.bluprynt.com/chains/solana) and [Solana checks](https://sdk.bluprynt.com/reference/solana) for details.
 
 ESM + CJS, bundled types.
 
