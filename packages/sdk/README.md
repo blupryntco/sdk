@@ -11,10 +11,10 @@ npm install @bluprynt/sdk
 ```
 
 ```ts
-import { createClient, parseCredential } from "@bluprynt/sdk";
+import { createClient, verifyKyiResponse } from "@bluprynt/sdk";
 
-const client = createClient({ baseUrl: "https://api.example.com", apiKey: process.env.API_KEY });
-const credential = await client.getCredential("cred_123");
+const client = createClient({ apiKey: process.env.BLUPRYNT_API_KEY });
+const response = await client.lookupTokens({ caip19: "eip155:1/erc20:0xa0b8…" });
 ```
 
 Chain add-ons are **not** bundled here — install them à la carte:

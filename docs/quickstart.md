@@ -4,10 +4,10 @@ This page re-checks one KYI token lookup for an EVM token, a test token on Sepol
 
 ## Install a chain package
 
-Install the package for the token's chain:
+Install the package for the token's chain, and the API client:
 
 ```sh
-npm install @bluprynt/sdk-chain-evm
+npm install @bluprynt/sdk-chain-evm @bluprynt/sdk-client
 ```
 
 For other chains, the steps are the same with a different package and `rpcUrls` key: `@bluprynt/sdk-chain-solana` with `solana:5eykt4UsFv8P8NJdTREpY1vzqKqZKvdp` ([Solana](/chains/solana)), or `@bluprynt/sdk-chain-xrpl` with `xrpl:0` and a `wss://` URL ([XRPL](/chains/xrpl)). To handle several chains with one call, see [Reading the report](/sdk/report#one-call-several-chains).
@@ -16,21 +16,19 @@ Each package ships ESM and CommonJS builds with TypeScript types. The packages d
 
 ## Fetch a lookup
 
-[Bluprynt's public API](https://integrations.bluprynt.com/) serves KYI token lookups at `GET /kyi/v1/tokens`. Look a token up by its [CAIP-19](/reference/glossary#caip) ID, or by `address` with an optional `chain_slug`. The request needs an API key; the [API docs](https://integrations.bluprynt.com/) describe how to send it.
+[Bluprynt's public API](https://integrations.bluprynt.com/) serves KYI token lookups at `GET /kyi/v1/tokens`. Look a token up by its [CAIP-19](/reference/glossary#caip) ID, or by `address` with an optional `chain_slug`. The request needs an API key.
 
 ```ts
-const url = new URL("https://integrations.bluprynt.com/kyi/v1/tokens");
-url.searchParams.set(
-  "caip19",
-  "eip155:11155111/erc20:0xcbc76ceb0afa037cbb975fd330bd683754998cc3",
-);
+import { createClient } from "@bluprynt/sdk-client";
 
-const res = await fetch(url, {
-  headers: { Authorization: process.env.BLUPRYNT_API_KEY ?? "" },
+const client = createClient({ apiKey: process.env.BLUPRYNT_API_KEY ?? "" });
+
+const response = await client.lookupTokens({
+  caip19: "eip155:11155111/erc20:0xcbc76ceb0afa037cbb975fd330bd683754998cc3",
 });
-if (!res.ok) throw new Error(`KYI lookup failed: ${res.status}`);
-const response = await res.json();
 ```
+
+[Querying the API](/sdk/api-client) covers the client. To call the API without it, send the key as-is in the `Authorization` header.
 
 The response says whether the token passed KYI (`kyi_verified`). It also lists the token's [authorities](/reference/glossary#authority) and the [verifications](/reference/glossary#verification) that back them. [Reading the report](/sdk/report#example) shows this lookup in full.
 

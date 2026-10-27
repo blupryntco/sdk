@@ -6,7 +6,9 @@
       "**",
       "!**/dist",
       "!examples/chains/output",
-      "!examples/chains/src/fixtures"
+      "!examples/chains/src/fixtures",
+      "!packages/client/openapi.json",
+      "!packages/client/src/generated"
     ]
   },
   "formatter": { "enabled": true, "indentStyle": "space", "indentWidth": 2 },

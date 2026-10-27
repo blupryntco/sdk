@@ -39,6 +39,7 @@ export default defineConfig({
       {
         text: "Verify with the SDK",
         items: [
+          { text: "Querying the API", link: "/sdk/api-client" },
           { text: "Moments", link: "/sdk/moments" },
           { text: "Reading the report", link: "/sdk/report" },
           { text: "Showing a badge", link: "/sdk/badge" },
