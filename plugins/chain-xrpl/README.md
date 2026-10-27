@@ -45,7 +45,7 @@ What it checks:
 - Signatures verify for the recorded signer key. Offline, a master key is accepted. At each moment, the key must have been authorised then: the master key while not disabled, or the account's regular key.
 - The issuer authority matches the token's issuer, and the issuer account exists at each moment.
 
-Every verification must also name one of the token's listed authorities. See the [XRPL page](https://blupryntco.github.io/sdk/chains/xrpl) and [XRPL checks](https://blupryntco.github.io/sdk/reference/xrpl) for details.
+Every verification must also name one of the token's listed authorities. See the [XRPL page](https://sdk.bluprynt.com/chains/xrpl) and [XRPL checks](https://sdk.bluprynt.com/reference/xrpl) for details.
 
 ESM + CJS, bundled types.
 

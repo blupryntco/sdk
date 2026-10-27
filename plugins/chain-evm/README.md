@@ -51,7 +51,7 @@ What it checks:
 - Amount and memo transfers exist on-chain and match the claim.
 - `owner()` and Safe owners and threshold match the listed authorities at each moment.
 
-Every verification must also name one of the token's listed authorities. See the [EVM page](https://blupryntco.github.io/sdk/chains/evm) and [EVM checks](https://blupryntco.github.io/sdk/reference/evm) for details.
+Every verification must also name one of the token's listed authorities. See the [EVM page](https://sdk.bluprynt.com/chains/evm) and [EVM checks](https://sdk.bluprynt.com/reference/evm) for details.
 
 ESM + CJS, bundled types.
 
