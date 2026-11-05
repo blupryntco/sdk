@@ -122,7 +122,7 @@ export interface KyiTokenLookup {
 /** One comparison performed while re-checking a claim. */
 export interface CheckStep {
   check: string;
-  via: "offline" | "rpc";
+  via: "offline" | "rpc" | "web";
   ok: boolean;
   expected?: unknown;
   actual?: unknown;
