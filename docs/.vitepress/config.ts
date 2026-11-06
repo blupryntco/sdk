@@ -43,6 +43,7 @@ export default defineConfig({
           { text: "Moments", link: "/sdk/moments" },
           { text: "Reading the report", link: "/sdk/report" },
           { text: "Showing a badge", link: "/sdk/badge" },
+          { text: "Checking published data", link: "/sdk/published-data" },
           { text: "RPC and errors", link: "/sdk/rpc" },
         ],
       },
