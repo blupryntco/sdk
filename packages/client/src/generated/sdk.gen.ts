@@ -2,7 +2,7 @@
 
 import type { Client, Options as Options2, TDataShape } from './client';
 import { client } from './client.gen';
-import type { BadgesGetBadgeData, BadgesGetBadgeErrors, BadgesGetBadgeResponses, KyiLookupTokensData, KyiLookupTokensErrors, KyiLookupTokensResponses, ReferenceGetChainData, ReferenceGetChainErrors, ReferenceGetChainResponses, ReferenceListChainsData, ReferenceListChainsErrors, ReferenceListChainsResponses } from './types.gen';
+import type { BadgesGetBadgeData, BadgesGetBadgeErrors, BadgesGetBadgeResponses, KyiLookupTokenClaimsData, KyiLookupTokenClaimsErrors, KyiLookupTokenClaimsResponses, KyiLookupTokensData, KyiLookupTokensErrors, KyiLookupTokensResponses, ReferenceGetChainData, ReferenceGetChainErrors, ReferenceGetChainResponses, ReferenceListChainsData, ReferenceListChainsErrors, ReferenceListChainsResponses } from './types.gen';
 
 export type Options<TData extends TDataShape = TDataShape, ThrowOnError extends boolean = boolean, TResponse = unknown> = Options2<TData, ThrowOnError, TResponse> & {
     /**
@@ -33,6 +33,17 @@ export const badgesGetBadge = <ThrowOnError extends boolean = false>(options: Op
 export const kyiLookupTokens = <ThrowOnError extends boolean = false>(options?: Options<KyiLookupTokensData, ThrowOnError>) => (options?.client ?? client).get<KyiLookupTokensResponses, KyiLookupTokensErrors, ThrowOnError>({
     security: [{ name: 'Authorization', type: 'apiKey' }],
     url: '/kyi/v1/tokens',
+    ...options
+});
+
+/**
+ * List organizations claiming a token
+ *
+ * Every organization claiming the token, pending or verified, oldest first, with when it opened the claim. Only organizations with a CCID are listed. Carries no authorities, verifications or asset details.
+ */
+export const kyiLookupTokenClaims = <ThrowOnError extends boolean = false>(options: Options<KyiLookupTokenClaimsData, ThrowOnError>) => (options.client ?? client).get<KyiLookupTokenClaimsResponses, KyiLookupTokenClaimsErrors, ThrowOnError>({
+    security: [{ name: 'Authorization', type: 'apiKey' }],
+    url: '/kyi/v1/tokens/claims',
     ...options
 });
 

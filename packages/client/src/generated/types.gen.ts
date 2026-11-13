@@ -126,6 +126,30 @@ export type KyiTokenLookup = {
     data: Array<KyiTokenLookupItem>;
 };
 
+export type KyiTokenClaimOrganization = {
+    /**
+     * The organization's CCID
+     */
+    ccid: string;
+    name: string | null;
+};
+
+export type KyiTokenClaim = {
+    organization: KyiTokenClaimOrganization;
+    /**
+     * Status of the organization's KYI on this token
+     */
+    status: 'discovered' | 'pending_verification' | 'verified' | 'unverifiable' | 'revoked';
+    /**
+     * When the organization opened the claim by adding the token
+     */
+    created_at: string;
+};
+
+export type KyiTokenClaims = {
+    data: Array<KyiTokenClaim>;
+};
+
 export type ReferenceChain = {
     /**
      * CAIP-2 chain id
@@ -264,6 +288,56 @@ export type KyiLookupTokensResponses = {
 };
 
 export type KyiLookupTokensResponse = KyiLookupTokensResponses[keyof KyiLookupTokensResponses];
+
+export type KyiLookupTokenClaimsData = {
+    body?: never;
+    path?: never;
+    query: {
+        /**
+         * CAIP-19 asset ID
+         */
+        caip19: unknown;
+    };
+    url: '/kyi/v1/tokens/claims';
+};
+
+export type KyiLookupTokenClaimsErrors = {
+    /**
+     * caip19 missing, repeated, or not a valid CAIP-19
+     */
+    400: unknown;
+    /**
+     * Unauthorized
+     */
+    401: {
+        message?: string;
+        error?: string;
+        statusCode?: number;
+    };
+    /**
+     * Internal Server Error
+     */
+    500: {
+        message?: string;
+        error?: string;
+        statusCode?: number;
+    };
+    /**
+     * KYI is unavailable
+     */
+    502: unknown;
+};
+
+export type KyiLookupTokenClaimsError = KyiLookupTokenClaimsErrors[keyof KyiLookupTokenClaimsErrors];
+
+export type KyiLookupTokenClaimsResponses = {
+    /**
+     * Organizations, possibly none
+     */
+    200: KyiTokenClaims;
+};
+
+export type KyiLookupTokenClaimsResponse = KyiLookupTokenClaimsResponses[keyof KyiLookupTokenClaimsResponses];
 
 export type ReferenceListChainsData = {
     body?: never;
