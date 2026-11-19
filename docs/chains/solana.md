@@ -34,7 +34,8 @@ The SDK re-checks signature verifications:
 | --- | --- | --- |
 | `signature` / `solana_raw` | Wallet apps | `message`, `signature` (base58) |
 | `signature` / `solana_offchain_v0` | The Solana CLI | `message`, `signature` (base58) |
-| `signature` with no `scheme` | Older records | `message`, `signature`. The SDK tries both formats |
+| `signature` / `solana_offchain_v0_signers` | Signers that use the full off-chain header | `message`, `signature` (base58) |
+| `signature` with no `scheme` | Older records | `message`, `signature`. The SDK tries each format |
 | `admin_manual` | Set by hand | Nothing to re-check |
 
 Every verification also names the `wallet_address` and the `authority` it backs. On Solana, authorities are usually `mint_authority` or `freeze_authority`.
@@ -70,7 +71,9 @@ The wallet signs the whole buffer: the header followed by the message bytes (`he
 
 Format `0` means restricted ASCII: printable characters only (0x20–0x7e), no newlines. Bluprynt's CLI challenge is one line of printable ASCII, so the CLI signs it as format `0`. The SDK always uses format `0`. A message the CLI signs as format `1` or `2` (for example one with a newline) won't verify. Bluprynt's multi-line wallet challenge is signed raw, so its format doesn't matter.
 
-**Two things called "version 0".** The scheme name `solana_offchain_v0` refers to the legacy header above, whose version byte is `0`. `@solana/kit` has its own off-chain message codec, and it also calls its layout "version 0". That layout is newer: it adds an application domain and a list of signers to the header. Its bytes differ from what the CLI signs, so the SDK doesn't use it. It builds the legacy header with Kit's generic codecs instead. That header is the one piece the SDK and the example build by hand. Everything else comes from Kit.
+**Two things called "version 0".** The scheme name `solana_offchain_v0` refers to the legacy header above, whose version byte is `0`. `@solana/kit` has its own off-chain message codec, and it also calls its layout "version 0". That layout is newer: it adds a 32-byte application domain after the version, and a signer count and the signers' public keys after the format. Its bytes differ from what the CLI signs. Some signers use it, and Bluprynt records their proofs as `solana_offchain_v0_signers`. The SDK encodes those with Kit's `getOffchainMessageV0Encoder`, with an application domain of zeros, the wallet as the only signer and format `0`. It builds the legacy header with Kit's generic codecs. That header is the one piece the SDK and the example build by hand. Everything else comes from Kit.
+
+`solana verify-offchain-signature` checks only the legacy header, so it rejects a valid `solana_offchain_v0_signers` signature.
 
 **Signatures are base58.** A signature is 64 bytes, stored as a base58 string. The SDK decodes it before verifying.
 

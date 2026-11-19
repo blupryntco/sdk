@@ -8,7 +8,8 @@ What `@bluprynt/sdk-chain-solana` checks, step by step. For background, see the 
 | --- | --- | --- |
 | `signature` / `solana_raw` | The Ed25519 signature over the UTF-8 message verifies for the wallet's public key | No |
 | `signature` / `solana_offchain_v0` | The signature verifies over the message wrapped in the legacy Solana off-chain message format (the format the Solana CLI signs) | No |
-| `signature` with no `scheme` | Tries both formats and notes which one matched | No |
+| `signature` / `solana_offchain_v0_signers` | The signature verifies over the message wrapped in the full version 0 off-chain header: an application domain of zeros, the wallet as the only signer, format `0` | No |
+| `signature` with no `scheme` | Tries each format and notes which one matched | No |
 | `admin_manual` | Not re-checkable. Reported as `unverifiable` | — |
 
 Other signature schemes, contract signatures and transfers are not supported on Solana and are reported as `unverifiable` (see [transfer proofs](/wallet-verification#onchain-transaction)).
@@ -30,8 +31,9 @@ The steps the Solana checker can report. Their names are exact.
 | `wallet is the authority or one of its signers` | `proof` |
 | `solana_raw signature verifies for wallet` | `proof` and `"now"` |
 | `solana_offchain_v0 signature verifies for wallet` | `proof` and `"now"` |
-| `signature verifies for wallet (scheme not recorded, matched solana_raw)` | `proof` and `"now"`, when `scheme` is `null`. Ends in `solana_offchain_v0` when that format matched |
-| `signature verifies for wallet (scheme not recorded)` | Same, when neither format matched |
+| `solana_offchain_v0_signers signature verifies for wallet` | `proof` and `"now"` |
+| `signature verifies for wallet (scheme not recorded, matched solana_raw)` | `proof` and `"now"`, when `scheme` is `null`. Ends in `solana_offchain_v0` or `solana_offchain_v0_signers` when that format matched |
+| `signature verifies for wallet (scheme not recorded)` | Same, when no format matched |
 | `verification's authority is listed for the token` | `proof`, from `verifyKyiToken` and `verifyKyiResponse` |
 | `multisig account exists` | `"now"` (multisig authorities) |
 | `multisig is owned by a token program` | `"now"` (multisig authorities) |

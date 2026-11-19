@@ -23,12 +23,16 @@ import {
   type GetAccountInfoApi,
   getBase58Encoder,
   getBytesCodec,
+  getOffchainMessageV0Encoder,
   getPublicKeyFromAddress,
   getTupleCodec,
   getU8Codec,
   getU16Codec,
   getUtf8Codec,
   type MaybeEncodedAccount,
+  type OffchainMessageApplicationDomain,
+  OffchainMessageContentFormat,
+  type OffchainMessageContentRestrictedAsciiOf1232BytesMax,
   parseBase64RpcAccount,
   type ReadonlyUint8Array,
   type Rpc,
@@ -111,10 +115,35 @@ const offchainDomain = Uint8Array.from([
   ...utf8.encode("solana offchain"),
 ]);
 
-function offchainPayload(message: string): ReadonlyUint8Array {
-  const body = utf8.encode(message);
-  return offchainCodec.encode([offchainDomain, 0, 0, body.length, body]);
-}
+const offchainV0 = getOffchainMessageV0Encoder();
+const zeroApplicationDomain =
+  "11111111111111111111111111111111" as OffchainMessageApplicationDomain;
+
+const payloads = {
+  solana_raw: (message: string) => utf8.encode(message),
+  solana_offchain_v0: (message: string) => {
+    const body = utf8.encode(message);
+    return offchainCodec.encode([offchainDomain, 0, 0, body.length, body]);
+  },
+  solana_offchain_v0_signers: (message: string, wallet: Address) =>
+    offchainV0.encode({
+      version: 0,
+      applicationDomain: zeroApplicationDomain,
+      requiredSignatories: [{ address: wallet }],
+      content: {
+        format: OffchainMessageContentFormat.RESTRICTED_ASCII_1232_BYTES_MAX,
+        text: message,
+      } as OffchainMessageContentRestrictedAsciiOf1232BytesMax,
+    }),
+} satisfies Record<
+  string,
+  (message: string, wallet: Address) => ReadonlyUint8Array
+>;
+
+type SolanaScheme = keyof typeof payloads;
+const solanaSchemes = Object.keys(payloads) as SolanaScheme[];
+const isSolanaScheme = (scheme: string): scheme is SolanaScheme =>
+  Object.hasOwn(payloads, scheme);
 
 async function checkSignature(
   t: CheckTrail,
@@ -122,32 +151,32 @@ async function checkSignature(
   { scheme, message, signature }: KyiSignatureMethod,
 ): Promise<void> {
   if (!message || !signature) return t.skip("proof material missing");
-  if (
-    scheme !== null &&
-    scheme !== "solana_raw" &&
-    scheme !== "solana_offchain_v0"
-  ) {
+  if (scheme !== null && !isSolanaScheme(scheme)) {
     return t.skip(`signature:${scheme} is not supported on Solana`);
   }
 
   const key = await getPublicKeyFromAddress(wallet as Address);
   const sig = getBase58Encoder().encode(signature) as SignatureBytes;
-  const raw = () => verifySignature(key, sig, utf8.encode(message));
-  const offchain = () => verifySignature(key, sig, offchainPayload(message));
+  const verifies = async (s: SolanaScheme) => {
+    let payload: ReadonlyUint8Array;
+    try {
+      payload = payloads[s](message, wallet as Address);
+    } catch {
+      return false;
+    }
+    return verifySignature(key, sig, payload);
+  };
 
-  if (scheme === "solana_raw") {
-    t.check("solana_raw signature verifies for wallet", await raw());
-  } else if (scheme === "solana_offchain_v0") {
-    t.check(
-      "solana_offchain_v0 signature verifies for wallet",
-      await offchain(),
-    );
+  if (scheme !== null) {
+    t.check(`${scheme} signature verifies for wallet`, await verifies(scheme));
   } else {
-    const matched = (await raw())
-      ? "solana_raw"
-      : (await offchain())
-        ? "solana_offchain_v0"
-        : null;
+    let matched: SolanaScheme | null = null;
+    for (const s of solanaSchemes) {
+      if (await verifies(s)) {
+        matched = s;
+        break;
+      }
+    }
     t.check(
       matched
         ? `signature verifies for wallet (scheme not recorded, matched ${matched})`

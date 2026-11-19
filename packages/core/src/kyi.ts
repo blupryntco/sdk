@@ -9,6 +9,7 @@ export interface KyiSignatureMethod {
     | "eip712"
     | "solana_raw"
     | "solana_offchain_v0"
+    | "solana_offchain_v0_signers"
     | "xrpl"
     | null;
   /** Exact signed string. */
