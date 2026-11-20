@@ -1,6 +1,6 @@
 {
   "name": "@bluprynt/sdk-registry",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Bluprynt SDK registry — read and verify what Bluprynt publishes: identities, credentials, attestations",
   "type": "module",
   "main": "./dist/index.cjs",
