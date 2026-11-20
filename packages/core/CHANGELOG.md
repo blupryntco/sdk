@@ -1,5 +1,12 @@
 # @bluprynt/sdk-core
 
+## 0.2.0
+
+### Minor Changes
+
+- a70fc0a: Add `@bluprynt/sdk-registry` with `verifyCredential`: checks that a W3C verifiable credential is well-formed, comes from an accepted issuer, and carries an `ecdsa-jcs-2019` proof by a key its issuer's `did:web` document lists for assertions. `CheckStep.via` gains `"web"` for checks that resolve DIDs.
+- 6659375: Re-check Solana signatures recorded as `solana_offchain_v0_signers`: the message behind the full version 0 off-chain header, with an application domain and the signer's public key. A signature with no recorded scheme is now also tried in this format.
+
 ## 0.1.0
 
 ### Minor Changes
