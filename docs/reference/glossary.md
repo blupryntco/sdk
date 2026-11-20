@@ -50,7 +50,7 @@ The EVM standard for contract signatures. A contract's `isValidSignature(hash, s
 
 ## Off-chain message {#off-chain-message}
 
-On Solana, a message signed with a header that no transaction can start with, so a signed message can't be mistaken for a transaction. The Solana CLI signs this way. Wallet apps usually sign the raw message instead. The scheme `solana_offchain_v0` is the legacy header the CLI uses, not Kit's newer "version 0" layout. See [Solana](/chains/solana#quirks).
+On Solana, a message signed with a header that no transaction can start with, so a signed message can't be mistaken for a transaction. The Solana CLI signs this way. Wallet apps usually sign the raw message instead. The scheme `solana_offchain_v0` is the legacy header the CLI uses. `solana_offchain_v0_signers` is Kit's newer "version 0" layout, which adds an application domain and the signers. See [Solana](/chains/solana#quirks).
 
 ## SPL Token and Token-2022 {#spl-token}
 

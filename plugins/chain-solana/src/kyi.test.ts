@@ -8,6 +8,7 @@ import {
   type Address,
   address,
   generateKeyPair,
+  getAddressEncoder,
   getAddressFromPublicKey,
   getBase58Decoder,
   getBase64Decoder,
@@ -129,6 +130,34 @@ const offchainVerification = async (
     signer_public_key: null,
   });
 
+function offchainSigners(message: string) {
+  const body = encode(message);
+  return Uint8Array.from([
+    0xff,
+    ...encode("solana offchain"),
+    0,
+    ...new Uint8Array(32),
+    0,
+    1,
+    ...getAddressEncoder().encode(wallet),
+    body.length & 0xff,
+    body.length >> 8,
+    ...body,
+  ]);
+}
+
+const offchainSignersVerification = async (
+  scheme: "solana_offchain_v0" | "solana_offchain_v0_signers" | null,
+  message = "hello",
+) =>
+  verification({
+    type: "signature",
+    scheme,
+    message,
+    signature: await sign(offchainSigners(message)),
+    signer_public_key: null,
+  });
+
 const proofOf = async (v: KyiVerification) => {
   const check = await checkKyiVerification(v, solToken);
   expect(check.at).toEqual({});
@@ -151,6 +180,35 @@ describe("solana KYI signatures", () => {
       await offchainVerification("solana_offchain_v0"),
     );
     expect(check.status).toBe("valid");
+  });
+
+  it("accepts a valid solana_offchain_v0_signers signature", async () => {
+    const check = await proofOf(
+      await offchainSignersVerification("solana_offchain_v0_signers"),
+    );
+    expect(check.status).toBe("valid");
+  });
+
+  it("rejects a full-header signature checked as solana_offchain_v0", async () => {
+    const check = await proofOf(
+      await offchainSignersVerification("solana_offchain_v0"),
+    );
+    expect(check.status).toBe("invalid");
+  });
+
+  it("matches an unrecorded full-header scheme", async () => {
+    const check = await proofOf(await offchainSignersVerification(null));
+    expect(check.status).toBe("valid");
+    expect(check.steps.map((s) => s.check).join()).toContain(
+      "matched solana_offchain_v0_signers",
+    );
+  });
+
+  it("rejects a non-ASCII message under solana_offchain_v0_signers", async () => {
+    const check = await proofOf(
+      await offchainSignersVerification("solana_offchain_v0_signers", "héllo"),
+    );
+    expect(check.status).toBe("invalid");
   });
 
   it("rejects an off-chain signature checked as raw", async () => {

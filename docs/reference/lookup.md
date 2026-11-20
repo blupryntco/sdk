@@ -61,7 +61,7 @@ A timestamp that doesn't parse throws, such as `Malformed verified_at: <value>`.
 
 | `type` | Fields | Chains |
 | --- | --- | --- |
-| `signature` | `scheme` (`eip191`, `eip712`, `solana_raw`, `solana_offchain_v0`, `xrpl` or `null`), `message`, `signature`, `signer_public_key` (needed on XRPL) | EVM, Solana, XRPL |
+| `signature` | `scheme` (`eip191`, `eip712`, `solana_raw`, `solana_offchain_v0`, `solana_offchain_v0_signers`, `xrpl` or `null`), `message`, `signature`, `signer_public_key` (needed on XRPL) | EVM, Solana, XRPL |
 | `contract_signature` | `scheme` (`eip1271`), `inner_scheme` (`eip191` or `eip712`), `message`, `signature`, `caip2`, `block_number` | EVM |
 | `transfer` with `kind: "amount"` | `caip2`, `transaction_hash`, `sender`, `recipient`, `asset` (a CAIP-19 ID), `amount` (in base units) | EVM |
 | `transfer` with `kind: "memo"` | `caip2`, `transaction_hash`, `sender`, `recipient`, `memo` | EVM |
