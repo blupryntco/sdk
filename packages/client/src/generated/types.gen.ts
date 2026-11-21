@@ -23,9 +23,39 @@ export type KyiAsset = {
     whitepaper_url: string | null;
 };
 
+export type KyiIssuingLegalEntity = {
+    /**
+     * Legal name of the entity that issues this asset
+     */
+    name: string;
+    /**
+     * ISO 17442 LEI of that entity
+     */
+    lei: string | null;
+};
+
+export type KyiIssuerParty = {
+    /**
+     * KYB legal name of the organization
+     */
+    name: string;
+};
+
 export type KyiIssuer = {
     name: string | null;
     kyb_verified: boolean;
+    /**
+     * Legal entity that issues this asset when it is not the KYB-verified organization. Declared by the issuer, not itself KYB verified. Null when the organization issues it
+     */
+    issuing_legal_entity: KyiIssuingLegalEntity | null;
+    /**
+     * KYB-verified organization that operates this issuer, such as the adviser of a fund, under a link Bluprynt confirmed. Null when there is no confirmed link or the operator is not KYB verified
+     */
+    managed_by: KyiIssuerParty | null;
+    /**
+     * KYB-verified organizations this issuer operates under a confirmed link, oldest first. Empty when there are none or this issuer is not KYB verified
+     */
+    manages: Array<KyiIssuerParty>;
 };
 
 export type KyiAuthority = {
@@ -42,7 +72,7 @@ export type KyiAuthority = {
 
 export type KyiSignatureMethod = {
     type: 'signature';
-    scheme: 'eip191' | 'eip712' | 'solana_raw' | 'solana_offchain_v0' | 'xrpl';
+    scheme: 'eip191' | 'eip712' | 'solana_raw' | 'solana_offchain_v0' | 'solana_offchain_v0_signers' | 'xrpl';
     /**
      * Exact signed string
      */
@@ -124,6 +154,30 @@ export type KyiTokenLookup = {
      */
     kyi_verified: boolean;
     data: Array<KyiTokenLookupItem>;
+};
+
+export type KyiTokenClaimOrganization = {
+    /**
+     * The organization's CCID
+     */
+    ccid: string;
+    name: string | null;
+};
+
+export type KyiTokenClaim = {
+    organization: KyiTokenClaimOrganization;
+    /**
+     * Status of the organization's KYI on this token
+     */
+    status: 'discovered' | 'pending_verification' | 'verified' | 'unverifiable' | 'revoked';
+    /**
+     * When the organization opened the claim by adding the token
+     */
+    created_at: string;
+};
+
+export type KyiTokenClaims = {
+    data: Array<KyiTokenClaim>;
 };
 
 export type ReferenceChain = {
@@ -264,6 +318,56 @@ export type KyiLookupTokensResponses = {
 };
 
 export type KyiLookupTokensResponse = KyiLookupTokensResponses[keyof KyiLookupTokensResponses];
+
+export type KyiLookupTokenClaimsData = {
+    body?: never;
+    path?: never;
+    query: {
+        /**
+         * CAIP-19 asset ID
+         */
+        caip19: unknown;
+    };
+    url: '/kyi/v1/tokens/claims';
+};
+
+export type KyiLookupTokenClaimsErrors = {
+    /**
+     * caip19 missing, repeated, or not a valid CAIP-19
+     */
+    400: unknown;
+    /**
+     * Unauthorized
+     */
+    401: {
+        message?: string;
+        error?: string;
+        statusCode?: number;
+    };
+    /**
+     * Internal Server Error
+     */
+    500: {
+        message?: string;
+        error?: string;
+        statusCode?: number;
+    };
+    /**
+     * KYI is unavailable
+     */
+    502: unknown;
+};
+
+export type KyiLookupTokenClaimsError = KyiLookupTokenClaimsErrors[keyof KyiLookupTokenClaimsErrors];
+
+export type KyiLookupTokenClaimsResponses = {
+    /**
+     * Organizations, possibly none
+     */
+    200: KyiTokenClaims;
+};
+
+export type KyiLookupTokenClaimsResponse = KyiLookupTokenClaimsResponses[keyof KyiLookupTokenClaimsResponses];
 
 export type ReferenceListChainsData = {
     body?: never;
